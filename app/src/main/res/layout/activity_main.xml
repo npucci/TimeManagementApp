@@ -5,8 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:context="com.example.nicco.timemanagementapp.MainActivity">
+        tools:layout_editor_absoluteX="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,6 +32,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/to_daily_checklist" />
+
+            <Button
+                android:id="@+id/toAnalyticsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/to_analytics_checklist" />
 
         </LinearLayout>
 

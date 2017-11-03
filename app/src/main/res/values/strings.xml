@@ -7,5 +7,9 @@
     <!-- BUTTONS -->
     <string name="to_goal_manager">To Goal Manager</string>
     <string name="to_daily_checklist">To Daily Checklist</string>
+    <string name="to_analytics_checklist">To Analytics</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
