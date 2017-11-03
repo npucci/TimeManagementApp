@@ -39,6 +39,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/to_analytics_checklist" />
 
+            <Button
+                android:id="@+id/toRetrospectiveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/to_retrospective" />
+
         </LinearLayout>
 
 </ScrollView>

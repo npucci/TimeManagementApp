@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity
     private Button toGoalManagerButton;
     private Button toDailyChecklistButton;
     private Button toAnalyticsButton;
+    private Button toRetrospectiveButton;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState )
@@ -59,6 +60,19 @@ public class MainActivity extends AppCompatActivity
                 startActivity ( new Intent (
                         MainActivity.this,
                         AnalyticsActivity.class
+                ) );
+            }
+        } );
+
+        toRetrospectiveButton = ( Button ) findViewById ( R.id.toRetrospectiveButton );
+        toRetrospectiveButton.setOnClickListener ( new View.OnClickListener ()
+        {
+            @Override
+            public void onClick ( View v )
+            {
+                startActivity ( new Intent (
+                        MainActivity.this,
+                        RetrospectiveActivity.class
                 ) );
             }
         } );
