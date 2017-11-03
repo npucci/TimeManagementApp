@@ -19,7 +19,8 @@
         <activity android:name=".activities.AnalyticsActivity" />
         <activity android:name=".activities.GoalManagerActivity" />
         <activity android:name=".activities.DailyChecklistActivity" />
-        <activity android:name=".activities.RetrospectiveActivity"></activity>
+        <activity android:name=".activities.RetrospectiveActivity" />
+        <activity android:name=".activities.CreateNewGoalActivity"></activity>
     </application>
 
 </manifest>
