@@ -13,6 +13,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity
 {
     private Button toGoalManagerButton;
+    private Button toDailyChecklistButton;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState )
@@ -26,13 +27,25 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick ( View v )
             {
-                Intent intent = new Intent (
-                        MainActivity.this,
-                        GoalManagerActivity.class
-                );
-
-                startActivity ( intent );
+               startActivity ( new Intent (
+                       MainActivity.this,
+                       GoalManagerActivity.class
+               ) );
             }
         } );
+
+        toDailyChecklistButton = ( Button ) findViewById ( R.id.toDailyChecklistButton );
+        toDailyChecklistButton.setOnClickListener ( new View.OnClickListener ()
+        {
+            @Override
+            public void onClick ( View v )
+            {
+                startActivity ( new Intent (
+                        MainActivity.this,
+                        DailyChecklistActivity.class
+                ) );
+            }
+        } );
+
     }
 }
