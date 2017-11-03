@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Time Management App</string>
+
+    <!-- TEXT VIEWS -->
+    <string name="welcome">Welcome!</string>
+
+    <!-- BUTTONS -->
+    <string name="to_goal_manager">To Goal Manager</string>
+    <string name="to_daily_checklist">To Daily Checklist</string>
+
 </resources>
