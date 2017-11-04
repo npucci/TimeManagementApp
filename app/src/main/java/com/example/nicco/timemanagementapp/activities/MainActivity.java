@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.nicco.timemanagementapp.R;
+import com.example.nicco.timemanagementapp.utilities.Database;
 
-/* Author: Niccolo Pucci
+/**
+ * Author: Niccolo Pucci
  * IAT 359
  */
 
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity
     private Button toDailyChecklistButton;
     private Button toAnalyticsButton;
     private Button toRetrospectiveButton;
+
+    private Database database;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState )
@@ -77,5 +81,7 @@ public class MainActivity extends AppCompatActivity
             }
         } );
 
+        database = new Database ( this );
+        database.insertData ( null , null );
     }
 }

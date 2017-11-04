@@ -8,6 +8,11 @@ import android.widget.Button;
 
 import com.example.nicco.timemanagementapp.R;
 
+/**
+ * Author: Niccolo Pucci
+ * IAT 359 - Final Project
+ */
+
 public class GoalManagerActivity extends AppCompatActivity
 {
     private Button createNewGoalbutton;
