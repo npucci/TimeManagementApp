@@ -1,5 +1,6 @@
 package com.example.nicco.timemanagementapp.utilities;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -67,6 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
             );
         }
 
+        initializeCategories ( db );
     }
 
     @Override
@@ -110,6 +112,35 @@ public class DatabaseHelper extends SQLiteOpenHelper
                     e.getMessage ()
             );
         }
+    }
 
+    private void initializeCategories ( SQLiteDatabase db )
+    {
+        for ( DatabaseValues.Category category : DatabaseValues.Category.values () )
+        {
+            try
+            {
+                ContentValues contentValues = new ContentValues ();
+
+                contentValues.put (
+                        DatabaseValues.Column.CATEGORY_TYPE.toString (),
+                        category.toString ()
+                );
+
+                db.insert (
+                        DatabaseValues.Table.CATEGORY.toString (),
+                        null,
+                        contentValues
+                );
+            }
+
+            catch ( SQLException e )
+            {
+                Log.v (
+                        "PUCCI",
+                        e.getMessage ()
+                );
+            }
+        }
     }
 }

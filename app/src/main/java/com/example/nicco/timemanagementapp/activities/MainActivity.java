@@ -82,6 +82,5 @@ public class MainActivity extends AppCompatActivity
         } );
 
         database = new Database ( this );
-        database.insertData ( null , null );
     }
 }
