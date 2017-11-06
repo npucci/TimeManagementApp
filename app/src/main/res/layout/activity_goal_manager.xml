@@ -6,18 +6,19 @@
         android:layout_height="match_parent"
         tools:context="com.example.nicco.timemanagementapp.activities.GoalManagerActivity">
 
-        <LinearLayout
+    <LinearLayout
+        android:id="@+id/goalManagerLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/createNewGoalbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="@string/new_goal" />
 
-            <Button
-                android:id="@+id/createNewGoalbutton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/create_new_goal" />
-
-        </LinearLayout>
+    </LinearLayout>
 
 </ScrollView>
 

@@ -71,19 +71,19 @@ public class Database
 //        );
 //    }
 
-    private String [] enumArrayToStringArray ( Enum [] enums )
-    {
-        if (enums == null )
-        {
-            return null;
-        }
-
-        String [] stringArray = new String [ enums.length ];
-        for ( int i = 0 ; i < enums.length ; i++ )
-        {
-            stringArray [ i ] = enums [ i ].toString ();
-        }
-
-        return stringArray;
-    }
+//    private String [] enumArrayToStringArray ( Enum [] enums )
+//    {
+//        if (enums == null )
+//        {
+//            return null;
+//        }
+//
+//        String [] stringArray = new String [ enums.length ];
+//        for ( int i = 0 ; i < enums.length ; i++ )
+//        {
+//            stringArray [ i ] = enums [ i ].toString ();
+//        }
+//
+//        return stringArray;
+//    }
 }
