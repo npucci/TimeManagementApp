@@ -3,13 +3,16 @@
 
     <!-- TEXT VIEWS -->
     <string name="welcome">Welcome!</string>
-    <string name="select_a_category">Select a Category:</string>
+    <string name="goal_title">Enter a Title:</string>
+    <string name="goal_description">Enter a Description (optional):</string>
+    <string name="select_category">Select a Category:</string>
 
     <!-- BUTTONS -->
     <string name="to_goal_manager">To Goal Manager</string>
     <string name="to_daily_checklist">To Daily Checklist</string>
     <string name="to_analytics_checklist">To Analytics</string>
     <string name="to_retrospective">To Retrospective</string>
-    <string name="create_new_goal">Create New Goal</string>
+    <string name="new_goal">New Goal</string>
+    <string name="save">Save</string>
 
 </resources>

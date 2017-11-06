@@ -1,12 +1,16 @@
 package com.example.nicco.timemanagementapp.activities;
 
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.nicco.timemanagementapp.R;
+import com.example.nicco.timemanagementapp.fragments.EditGoalDialogFragment;
+
+import static com.example.nicco.timemanagementapp.fragments.EditGoalDialogFragment.FRAGMENT_TAG;
 
 /**
  * Author: Niccolo Pucci
@@ -29,12 +33,28 @@ public class GoalManagerActivity extends AppCompatActivity
             @Override
             public void onClick ( View v )
             {
-                startActivity ( new Intent(
-                        GoalManagerActivity.this,
-                        CreateNewGoalActivity.class
-                ) );
+            showGoalEditDialog ();
             }
         } );
+    }
 
+    private void showGoalEditDialog ()
+    {
+        FragmentTransaction fragmentTransaction = getFragmentManager ().beginTransaction ();
+        Fragment previousFragment = getFragmentManager ()
+                .findFragmentByTag ( FRAGMENT_TAG );
+
+        if ( previousFragment != null )
+        {
+            fragmentTransaction.remove ( previousFragment );
+        }
+        fragmentTransaction.addToBackStack ( null );
+
+        EditGoalDialogFragment editGoalDialogFragment = new EditGoalDialogFragment ();
+
+        editGoalDialogFragment.show (
+                fragmentTransaction,
+                FRAGMENT_TAG
+        );
     }
 }

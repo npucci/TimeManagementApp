@@ -16,7 +16,7 @@ public class DatabaseValues
                     Column.GOAL_TITLE.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.GOAL_DESCRIPTION.getColumnNameAndDataType () + ", " +
                     Column.CATEGORY_TYPE.getColumnNameAndDataType () + " NOT NULL, " +
-                    Column.GOAL_CREATION_DATE_TIME.getColumnNameAndDataType () + " NOT NULL DEFAULT ( GETDATE () ), " +
+                    Column.GOAL_CREATION_DATE_TIME.getColumnNameAndDataType () + " NOT NULL DEFAULT ( DATETIME ( 'now' ) ), " +
                     Column.GOAL_COMPLETION_DATE_TIME.getColumnNameAndDataType () + ", " +
                     "FOREIGN KEY ( " + Column.CATEGORY_TYPE + " ) " +
                     "REFERENCES " + Table.CATEGORY + " ( " +
@@ -39,17 +39,20 @@ public class DatabaseValues
             "CREATE TABLE " + Table.RETROSPECTIVE.tableName + " ( " +
                     Column.RETROSPECTIVE_KEY.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                    Column.RETROSPECTIVE_TITLE.getColumnNameAndDataType () + " NOT NULL DEFAULT ( 'Entry' ), " +
+                    Column.RETROSPECTIVE_TITLE.getColumnNameAndDataType () +
+                    " NOT NULL DEFAULT ( 'Entry' ), " +
                     Column.GOAL_KEY.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.RETROSPECTIVE_ENTRY.getColumnNameAndDataType () + " NOT NULL, " +
-                    Column.RETROSPECTIVE_CREATION_DATE.getColumnNameAndDataType () + " NOT NULL DEFAULT ( GETDATE () ), " +
+                    Column.RETROSPECTIVE_CREATION_DATE.getColumnNameAndDataType () +
+                    " NOT NULL DEFAULT ( DATETIME ( 'now' ) ), " +
                     "CONSTRAINT UC_Retrospective UNIQUE ( " +
                     Column.RETROSPECTIVE_CREATION_DATE + " ) " +
                     "FOREIGN KEY ( " + Column.GOAL_KEY + " ) " +
                     "REFERENCES " + Table.GOAL + " ( " +
                     Column.GOAL_KEY + " ) ON DELETE CASCADE" +
                     " )";
-    public static final String DROP_TABLE_RETROSPECTIVE = "DROP TABLE IF EXISTS " + Table.RETROSPECTIVE;
+    public static final String DROP_TABLE_RETROSPECTIVE = "DROP TABLE IF EXISTS " +
+            Table.RETROSPECTIVE;
 
     public static final String CREATE_TABLE_TASK =
             "CREATE TABLE " + Table.TASK.tableName + " ( " +
@@ -58,9 +61,10 @@ public class DatabaseValues
                     Column.TASK_TITLE.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.GOAL_KEY.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.TASK_DESCRIPTION.getColumnNameAndDataType () + ", " +
-                    Column.TASK_ESTIMATED_COST.getColumnNameAndDataType () + " NOT NULL DEFAULT ( 1 ), " +
+                    Column.TASK_ESTIMATED_COST.getColumnNameAndDataType () +
+                    " NOT NULL DEFAULT ( 1 ), " +
                     Column.TASK_CREATION_DATE_TIME.getColumnNameAndDataType () +
-                    " NOT NULL DEFAULT ( GETDATE () ), " +
+                    " NOT NULL DEFAULT ( DATETIME ( 'now' ) ), " +
                     Column.TASK_COMPLETION_DATE_TIME.getColumnNameAndDataType () + ", " +
                     Column.TASK_DUE_DATE.getColumnNameAndDataType () + ", " +
                     "CONSTRAINT UC_" + Table.TASK + " UNIQUE ( " +
