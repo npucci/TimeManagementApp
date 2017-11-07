@@ -126,11 +126,12 @@ public class GoalEditorActivity extends AppCompatActivity implements ChangeListe
             return;
         }
 
-        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(
+        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter (
                 this,
-                new Database ( this ).getCursor (
+                new Database( this ).getCursor (
                         new DatabaseValues.Table [] { DatabaseValues.Table.TASK },
-                        null
+                        "WHERE " + DatabaseValues.Column.GOAL_ID + " == " +
+                                goalKeyTextView.getText ().toString ()
                 )
         );
         taskRecyclerView.setAdapter ( taskRecyclerViewAdapter );
