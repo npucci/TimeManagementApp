@@ -23,7 +23,6 @@ public class Database
         this.context = context;
         databaseHelper = new DatabaseHelper ( context );
         db = databaseHelper.getWritableDatabase ();
-        db = databaseHelper.getWritableDatabase ();
     }
 
     public Long insertData (
@@ -59,11 +58,14 @@ public class Database
     }
 
     public Cursor getCursor (
-            DatabaseValues.Table table,
+            DatabaseValues.Table [] tables,
             String where
-    )
-    {
-        if ( where == null )
+    ) {
+        if ( tables == null || tables.length == 0 )
+        {
+            return null;
+        }
+        else if ( where == null )
         {
             where = "";
         }
@@ -71,25 +73,42 @@ public class Database
         {
             where = " " + where;
         }
+
+        String tableArgs = tables [ 0 ].toString ();
+        for ( int i = 1 ; i < tables.length ; i++ )
+        {
+            tableArgs += " INNER JOIN " + tables [ i ];
+        }
+
+        String selectArgs = tables [ 0 ] + "." + DatabaseValues.Column._ID;
+        for ( int i = 1 ; i < tables.length ; i++ )
+        {
+            selectArgs += ", " + tables [ i ] + "." + DatabaseValues.Column._ID;
+        }
+        selectArgs += ", *";
+
+        String sql = "SELECT " + selectArgs + " FROM " + tableArgs + where +
+                " ORDER BY " + tables [ 0 ] + "." + DatabaseValues.Column._ID + " DESC";
+
         return db.rawQuery (
-                "SELECT * " + " FROM " + table + where + " ORDER BY " + DatabaseValues.Column._ID + " DESC",
+                sql,
                 null
         );
     }
 
-//    private String [] enumArrayToStringArray ( Enum [] enums )
-//    {
-//        if (enums == null )
-//        {
-//            return null;
-//        }
-//
-//        String [] stringArray = new String [ enums.length ];
-//        for ( int i = 0 ; i < enums.length ; i++ )
-//        {
-//            stringArray [ i ] = enums [ i ].toString ();
-//        }
-//
-//        return stringArray;
-//    }
+    public Cursor getUrgentTasksCursor ()
+    {
+
+        String sql = "SELECT * FROM " + DatabaseValues.Table.TASK +
+                " WHERE " + DatabaseValues.Column.TASK_COMPLETION_DATE_TIME + " IS NULL " +
+                " ORDER BY " + "ABS ( julianday(" + DatabaseValues.Column.TASK_DUE_DATE +
+                ") - julianday(DATETIME ('now', 'localtime') ) )" + " ASC, " +
+            DatabaseValues.Column.TASK_ESTIMATED_COST + " DESC, " +
+                DatabaseValues.Column.TASK_CREATION_DATE_TIME + " DESC LIMIT 10";
+
+        return db.rawQuery (
+                sql,
+                null
+        );
+    }
 }

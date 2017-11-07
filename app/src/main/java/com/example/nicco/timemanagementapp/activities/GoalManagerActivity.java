@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.nicco.timemanagementapp.R;
+import com.example.nicco.timemanagementapp.adapters.GoalRecyclerViewAdapter;
 import com.example.nicco.timemanagementapp.fragments.EditGoalDialogFragment;
 import com.example.nicco.timemanagementapp.interfaces.ChangeListener;
 import com.example.nicco.timemanagementapp.utilities.Database;
@@ -42,7 +43,7 @@ public class GoalManagerActivity extends AppCompatActivity implements ChangeList
         goalRecyclerViewAdapter = new GoalRecyclerViewAdapter (
                 this,
                 new Database ( this ).getCursor (
-                        DatabaseValues.Table.GOAL,
+                        new DatabaseValues.Table [] { DatabaseValues.Table.GOAL },
                         null
                 )
         );
@@ -90,7 +91,7 @@ public class GoalManagerActivity extends AppCompatActivity implements ChangeList
         goalRecyclerViewAdapter = new GoalRecyclerViewAdapter (
                 this,
                 new Database ( this ).getCursor (
-                        DatabaseValues.Table.GOAL,
+                        new DatabaseValues.Table [] { DatabaseValues.Table.GOAL },
                         null
                 )
         );

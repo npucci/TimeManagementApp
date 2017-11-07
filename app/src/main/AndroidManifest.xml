@@ -20,7 +20,8 @@
         <activity android:name=".activities.GoalManagerActivity" />
         <activity android:name=".activities.DailyChecklistActivity" />
         <activity android:name=".activities.RetrospectiveActivity" />
-        <activity android:name=".fragments.EditGoalDialogFragment"></activity>
+        <activity android:name=".fragments.EditGoalDialogFragment" />
+        <activity android:name=".activities.GoalEditorActivity"></activity>
     </application>
 
 </manifest>

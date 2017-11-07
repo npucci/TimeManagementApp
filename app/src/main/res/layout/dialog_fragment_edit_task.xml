@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.nicco.timemanagementapp.fragments.EditGoalDialogFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+
+
+        <TextView
+            android:id="@+id/taskTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/goal_title"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/taskTitleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:maxLength="@integer/title_varchar_length"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/taskEstimatedCostTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/task_estimated_cost"
+            android:textSize="20sp" />
+
+        <SeekBar
+            android:id="@+id/taskEstimatedPointSeekBar"
+            android:paddingTop="10dp"
+            android:progress="1"
+            android:max="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/taskdeadlineTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/task_deadline"
+            android:textSize="20sp" />
+
+        <DatePicker
+            android:id="@+id/taskDeadlineDatePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:paddingTop="10dp" />
+
+        <TimePicker
+            android:id="@+id/taskDeadlineTimePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner"
+            android:paddingTop="10dp" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/save"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+</ScrollView>
