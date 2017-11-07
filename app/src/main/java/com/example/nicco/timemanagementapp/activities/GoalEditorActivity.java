@@ -59,10 +59,6 @@ public class GoalEditorActivity extends AppCompatActivity implements ChangeListe
         goalCreationDateTimeTextView.setText ( "Created: " + getIntent ().getStringExtra (
                 DatabaseValues.Column.GOAL_CREATION_DATE_TIME.toString () ) );
 
-        goalCreationDateTimeTextView = ( TextView ) findViewById ( R.id.goalCreationDateTimeTextView );
-        goalCreationDateTimeTextView.setText ( "Created: " + getIntent ().getStringExtra (
-                DatabaseValues.Column.GOAL_CREATION_DATE_TIME.toString () ) );
-
         goalCompletionDateTimeTextView = ( TextView ) findViewById ( R.id.goalCompletionDateTimeTextView );
         String completedDateTime = getIntent ().getStringExtra (
                 DatabaseValues.Column.GOAL_COMPLETION_DATE_TIME.toString () );
@@ -81,7 +77,8 @@ public class GoalEditorActivity extends AppCompatActivity implements ChangeListe
                 this,
                 new Database( this ).getCursor (
                         new DatabaseValues.Table [] { DatabaseValues.Table.TASK },
-                        null
+                        "WHERE " + DatabaseValues.Column.GOAL_ID + " == " +
+                                goalKeyTextView.getText ().toString ()
                 )
         );
         taskRecyclerView = ( RecyclerView ) findViewById ( R.id.taskRecyclerView );
