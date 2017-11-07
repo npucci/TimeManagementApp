@@ -3,13 +3,16 @@ package com.example.nicco.timemanagementapp.fragments;
 import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.nicco.timemanagementapp.R;
@@ -18,6 +21,10 @@ import com.example.nicco.timemanagementapp.interfaces.NullChangeListener;
 import com.example.nicco.timemanagementapp.utilities.Database;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Author: Niccolo Pucci
  * IAT 359 - Final Project
@@ -25,18 +32,24 @@ import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
 public class EditTaskDialogFragment extends DialogFragment
 {
-    public static final String FRAGMENT_TAG = "editGoalDialog";
+    public static final String FRAGMENT_TAG = "editTaskDialog";
+
+    private String goalID;
 
     private ChangeListener changeListener;
 
-    private EditText goalTitleEditText;
-    private EditText goalDescriptionEditText;
+    private EditText taskTitleEditText;
 
-    private Spinner categorySpinner;
+    private TextView taskEstimatedCostTextView;
+
+    private SeekBar taskEstimatedPointSeekBar;
+
+    private DatePicker taskDeadlineDatePicker;
+    private TimePicker taskDeadlineTimePicker;
 
     private Button saveButton;
 
-    public static EditTaskDialogFragment newInstance (ChangeListener changeListener )
+    public static EditTaskDialogFragment newInstance ( String goalID, ChangeListener changeListener )
     {
         EditTaskDialogFragment editGoalDialogFragment = new EditTaskDialogFragment();
         if ( changeListener == null )
@@ -44,6 +57,7 @@ public class EditTaskDialogFragment extends DialogFragment
             changeListener = new NullChangeListener ();
         }
         editGoalDialogFragment.setChangeListener ( changeListener );
+        editGoalDialogFragment.setGoalID ( goalID );
         return editGoalDialogFragment;
     }
 
@@ -60,23 +74,50 @@ public class EditTaskDialogFragment extends DialogFragment
             Bundle savedInstanceState
     ) {
         final View view =  inflater.inflate (
-                R.layout.dialog_fragment_edit_goal,
+                R.layout.dialog_fragment_edit_task,
                 container,
                 false
         );
 
-        goalTitleEditText = ( EditText ) view.findViewById ( R.id.goalTitleEditText );
-        goalDescriptionEditText = ( EditText ) view.findViewById ( R.id.goalDescriptionEditText );
+        taskTitleEditText = ( EditText ) view.findViewById ( R.id.taskTitleEditText );
+
+        taskEstimatedCostTextView = ( TextView ) view.findViewById ( R.id.taskEstimatedCostTextView );
+
+        taskEstimatedPointSeekBar = ( SeekBar ) view.findViewById ( R.id.taskEstimatedPointSeekBar );
+        taskEstimatedPointSeekBar.setOnSeekBarChangeListener(  new SeekBar.OnSeekBarChangeListener ()
+        {
+            @Override
+            public void onProgressChanged (
+                    SeekBar seekBar,
+                    int progress,
+                    boolean fromUser
+            ) {
+                taskEstimatedCostTextView.setText (
+                        getResources ().getString ( R.string.task_estimated_cost )
+                                + " " + progress );
+            }
+
+            @Override
+            public void onStartTrackingTouch ( SeekBar seekBar )
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch ( SeekBar seekBar )
+            {
+
+            }
+        } );
+
+        taskEstimatedCostTextView.setText (
+                getResources ().getString ( R.string.task_estimated_cost )
+                        + " " + taskEstimatedPointSeekBar.getProgress () );
+
+        taskDeadlineDatePicker = ( DatePicker ) view.findViewById ( R.id.taskDeadlineDatePicker );
+        taskDeadlineTimePicker = ( TimePicker ) view.findViewById ( R.id.taskDeadlineTimePicker );
 
         Database db = new Database ( view.getContext () );
-
-        categorySpinner = ( Spinner ) view.findViewById ( R.id.categorySpinner );
-        ArrayAdapter < String > arrayAdapter = new ArrayAdapter <> (
-                view.getContext (),
-                R.layout.spinner_item,
-                db.getAllCategories ()
-        );
-        categorySpinner.setAdapter ( arrayAdapter );
 
         saveButton = ( Button ) view.findViewById ( R.id.saveButton );
         saveButton.setOnClickListener ( new View.OnClickListener()
@@ -84,14 +125,11 @@ public class EditTaskDialogFragment extends DialogFragment
             @Override
             public void onClick ( View v )
             {
-                String goalTitle = goalTitleEditText.getText ().toString ();
-                String goalDescription = goalDescriptionEditText.getText ().toString ();
-                String goalCategory = categorySpinner.getSelectedItem ().toString ( );
+                String taskTitle = taskTitleEditText.getText ().toString ();
+
                 boolean hasNeededInput =
-                        goalTitle != null &&
-                                !goalTitle.isEmpty () &&
-                                goalCategory != null &&
-                                !goalCategory.isEmpty ();
+                        taskTitle != null &&
+                                !taskTitle.isEmpty ();
 
                 if ( !hasNeededInput )
                 {
@@ -107,22 +145,30 @@ public class EditTaskDialogFragment extends DialogFragment
 
                 ContentValues contentValues = new ContentValues ();
                 contentValues.put (
-                        DatabaseValues.Column.GOAL_TITLE.toString (),
-                        goalTitle
+                        DatabaseValues.Column.TASK_TITLE.toString (),
+                        taskTitle
                 );
                 contentValues.put (
-                        DatabaseValues.Column.GOAL_DESCRIPTION.toString (),
-                        goalDescription
+                        DatabaseValues.Column.TASK_ESTIMATED_COST.toString (),
+                        "" + taskEstimatedPointSeekBar.getProgress ()
                 );
                 contentValues.put (
-                        DatabaseValues.Column.CATEGORY_TYPE.toString (),
-                        goalCategory
+                        DatabaseValues.Column.TASK_DUE_DATE.toString (),
+                        "" + getDateTime ()
+                );
+                contentValues.put (
+                        DatabaseValues.Column.GOAL_ID.toString (),
+                        "" + goalID
                 );
 
+
                 Long id = database.insertData (
-                        DatabaseValues.Table.GOAL,
+                        DatabaseValues.Table.TASK,
                         contentValues
                 );
+
+                Log.v ( "PUCCI", "getDateTime () = " + getDateTime () );
+                Log.v ( "PUCCI", "ID = " + id );
 
                 changeListener.notifyActionChange ( true );
                 dismiss ();
@@ -130,6 +176,53 @@ public class EditTaskDialogFragment extends DialogFragment
         } );
 
         return view;
+    }
+
+    private void setGoalID ( String goalID )
+    {
+        this.goalID = goalID;
+    }
+
+    private String getDateTime ()
+    {
+        String year = "" + taskDeadlineDatePicker.getYear ();
+        String month = "" + ( taskDeadlineDatePicker.getMonth () + 1 );
+        if ( month.length () == 1 )
+        {
+            month = "0" + month;
+        }
+        String day = "" + taskDeadlineDatePicker.getDayOfMonth ();
+        if ( day.length () == 1 )
+        {
+            day = "0" + day;
+        }
+
+        String hour = "" + taskDeadlineTimePicker.getCurrentHour ();
+        if ( hour.length () == 1 )
+        {
+            hour = "0" + hour;
+        }
+
+        String minute = "" + taskDeadlineTimePicker.getCurrentMinute ();
+        if ( minute.length () == 1 )
+        {
+            minute = "0" + day;
+        }
+
+        // YYYY-mm-dd HH:MM:SS
+        String deadlineDateTime = year + "-" + month + "-" + day + " " + hour + ":" +
+                minute + ":00.000";
+        try
+        {
+            Date date = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss.SSS" ).parse ( deadlineDateTime );
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            return dateFormat.format( date );
+        }
+        catch ( ParseException e )
+        {
+            e.printStackTrace ();
+        }
+        return null;
     }
 
     private void setChangeListener ( ChangeListener changeListener )

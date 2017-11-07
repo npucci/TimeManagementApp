@@ -6,6 +6,8 @@
     <string name="goal_title">Enter a Title:</string>
     <string name="goal_description">Enter a Description (optional):</string>
     <string name="select_category">Select a Category:</string>
+    <string name="task_estimated_cost">Estimated Difficulty:</string>
+    <string name="task_deadline">Enter a Deadline:</string>
 
     <!-- BUTTONS -->
     <string name="to_goal_manager">To Goal Manager</string>

@@ -60,8 +60,7 @@ public class Database
     public Cursor getCursor (
             DatabaseValues.Table [] tables,
             String where
-    )
-    {
+    ) {
         if ( tables == null || tables.length == 0 )
         {
             return null;
@@ -91,30 +90,25 @@ public class Database
         String sql = "SELECT " + selectArgs + " FROM " + tableArgs + where +
                 " ORDER BY " + tables [ 0 ] + "." + DatabaseValues.Column._ID + " DESC";
 
-//        Log.v (
-//                "PUCCI",
-//                "sql = " + sql
-//        );
-
         return db.rawQuery (
                 sql,
                 null
         );
     }
 
-//    private String [] enumArrayToStringArray ( Enum [] enums )
-//    {
-//        if (enums == null )
-//        {
-//            return null;
-//        }
-//
-//        String [] stringArray = new String [ enums.length ];
-//        for ( int i = 0 ; i < enums.length ; i++ )
-//        {
-//            stringArray [ i ] = enums [ i ].toString ();
-//        }
-//
-//        return stringArray;
-//    }
+    public Cursor getUrgentTasksCursor ()
+    {
+
+        String sql = "SELECT * FROM " + DatabaseValues.Table.TASK +
+                " WHERE " + DatabaseValues.Column.TASK_COMPLETION_DATE_TIME + " IS NULL " +
+                " ORDER BY " + "ABS ( julianday(" + DatabaseValues.Column.TASK_DUE_DATE +
+                ") - julianday(DATETIME ('now', 'localtime') ) )" + " ASC, " +
+            DatabaseValues.Column.TASK_ESTIMATED_COST + " DESC, " +
+                DatabaseValues.Column.TASK_CREATION_DATE_TIME + " DESC LIMIT 10";
+
+        return db.rawQuery (
+                sql,
+                null
+        );
+    }
 }

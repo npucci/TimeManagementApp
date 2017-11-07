@@ -14,10 +14,8 @@ import android.widget.Toast;
 import com.example.nicco.timemanagementapp.R;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
-import static com.example.nicco.timemanagementapp.R.id.goalCreationDateTimeTextView;
-
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
-        <TaskRecyclerViewAdapter.GoalViewHolder>
+        < TaskRecyclerViewAdapter.TaskViewHolder >
 {
     private Context context;
     private CursorAdapter cursorAdapter;
@@ -54,7 +52,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public GoalViewHolder onCreateViewHolder (
+    public TaskViewHolder onCreateViewHolder (
             ViewGroup parent,
             int viewType
     ) {
@@ -63,13 +61,13 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
                 parent,
                 false
         );
-        GoalViewHolder viewHolder = new GoalViewHolder( view );
+        TaskViewHolder viewHolder = new TaskViewHolder( view );
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder (
-            GoalViewHolder holder,
+            TaskViewHolder holder,
             int position
     ) {
 
@@ -83,28 +81,42 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
         );
 
         holder.taskTitleTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
+                "Task: " + cursor.getString ( cursor.getColumnIndex (
                         DatabaseValues.Column.TASK_TITLE.toString ()
                 ) )
         );
 
         holder.taskEstimatedCostTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
+                "Estimated Difficulty: " + cursor.getString ( cursor.getColumnIndex (
                         DatabaseValues.Column.TASK_ESTIMATED_COST.toString ()
                 ) )
         );
 
         holder.taskCreationDateTimeTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
+                "Created: " + cursor.getString ( cursor.getColumnIndex (
                         DatabaseValues.Column.TASK_CREATION_DATE_TIME.toString ()
                 ) )
         );
 
-        holder.taskCompletionDateTimeTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
-                        DatabaseValues.Column.TASK_COMPLETION_DATE_TIME.toString ()
+        holder.taskDeadlineTextView.setText (
+                "Due Date: " + cursor.getString ( cursor.getColumnIndex (
+                        DatabaseValues.Column.TASK_DUE_DATE.toString ()
                 ) )
         );
+
+
+        String completedDateTime = cursor.getString ( cursor.getColumnIndex (
+                DatabaseValues.Column.TASK_COMPLETION_DATE_TIME.toString () ) );
+        if ( completedDateTime == null || completedDateTime.isEmpty () )
+        {
+            completedDateTime = "Status: Ongoing";
+
+        }
+        else
+        {
+            completedDateTime = "Completed: " + completedDateTime;
+        }
+        holder.taskCompletionDateTimeTextView.setText ( "Due Date: " + completedDateTime );
     }
 
 
@@ -114,27 +126,29 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
         return cursorAdapter.getCount ();
     }
 
-    public class GoalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public TextView taskKeyTextView;
         public TextView taskTitleTextView;
         public TextView taskEstimatedCostTextView;
         public TextView taskCreationDateTimeTextView;
+        public TextView taskDeadlineTextView;
         public TextView taskCompletionDateTimeTextView;
         public LinearLayout myLayout;
 
         Context context;
 
-        public GoalViewHolder ( View itemView )
+        public TaskViewHolder ( View itemView )
         {
             super ( itemView );
             myLayout = ( LinearLayout ) itemView;
 
-            taskKeyTextView = ( TextView ) itemView.findViewById ( R.id.goalKeyTextView );
+            taskKeyTextView = ( TextView ) itemView.findViewById ( R.id.taskKeyTextView );
             taskTitleTextView = ( TextView ) itemView.findViewById ( R.id.taskTitleTextView );
             taskEstimatedCostTextView = ( TextView ) itemView.findViewById ( R.id.taskEstimatedCostTextView );
-            taskCreationDateTimeTextView = ( TextView ) itemView.findViewById ( goalCreationDateTimeTextView );
-            taskCompletionDateTimeTextView = ( TextView ) itemView.findViewById ( R.id.goalCompletionDateTimeTextView );
+            taskCreationDateTimeTextView = ( TextView ) itemView.findViewById ( R.id.taskCreationDateTimeTextView );
+            taskDeadlineTextView = ( TextView ) itemView.findViewById ( R.id.taskDeadlineTextView );
+            taskCompletionDateTimeTextView = ( TextView ) itemView.findViewById ( R.id.taskCompletionDateTimeTextView );
 
             itemView.setOnClickListener ( this );
             context = itemView.getContext ();

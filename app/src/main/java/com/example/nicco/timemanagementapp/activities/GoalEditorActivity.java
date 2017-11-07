@@ -1,19 +1,25 @@
 package com.example.nicco.timemanagementapp.activities;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.nicco.timemanagementapp.R;
 import com.example.nicco.timemanagementapp.adapters.TaskRecyclerViewAdapter;
+import com.example.nicco.timemanagementapp.fragments.EditTaskDialogFragment;
+import com.example.nicco.timemanagementapp.interfaces.ChangeListener;
 import com.example.nicco.timemanagementapp.utilities.Database;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
-public class GoalEditorActivity extends AppCompatActivity
-{
+import static com.example.nicco.timemanagementapp.fragments.EditTaskDialogFragment.FRAGMENT_TAG;
 
+public class GoalEditorActivity extends AppCompatActivity implements ChangeListener
+{
     private TextView goalKeyTextView;
     private TextView goalTitleTextView;
     private TextView goalDescriptionTextView;
@@ -23,6 +29,8 @@ public class GoalEditorActivity extends AppCompatActivity
 
     private RecyclerView taskRecyclerView;
 
+    private Button createNewTaskButton;
+
     private TaskRecyclerViewAdapter taskRecyclerViewAdapter;
 
     @Override
@@ -31,17 +39,12 @@ public class GoalEditorActivity extends AppCompatActivity
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_goal_editor );
 
-        Log.v (
-                "PUCCI",
-                "HERE"
-        );
-
         goalKeyTextView = ( TextView ) findViewById ( R.id.goalKeyTextView );
         goalKeyTextView.setText ( getIntent ().getStringExtra (
                 DatabaseValues.Column._ID.toString () ) );
 
         goalTitleTextView = ( TextView ) findViewById ( R.id.goalTitleTextView );
-        goalTitleTextView.setText ( "Title: " + getIntent ().getStringExtra (
+        goalTitleTextView.setText ( "Goal: " + getIntent ().getStringExtra (
                 DatabaseValues.Column.GOAL_TITLE.toString () ) );
 
         goalDescriptionTextView = ( TextView ) findViewById ( R.id.goalDescriptionTextView );
@@ -56,21 +59,23 @@ public class GoalEditorActivity extends AppCompatActivity
         goalCreationDateTimeTextView.setText ( "Created: " + getIntent ().getStringExtra (
                 DatabaseValues.Column.GOAL_CREATION_DATE_TIME.toString () ) );
 
+        goalCreationDateTimeTextView = ( TextView ) findViewById ( R.id.goalCreationDateTimeTextView );
+        goalCreationDateTimeTextView.setText ( "Created: " + getIntent ().getStringExtra (
+                DatabaseValues.Column.GOAL_CREATION_DATE_TIME.toString () ) );
+
         goalCompletionDateTimeTextView = ( TextView ) findViewById ( R.id.goalCompletionDateTimeTextView );
-        String completedDate = getIntent ().getStringExtra (
+        String completedDateTime = getIntent ().getStringExtra (
                 DatabaseValues.Column.GOAL_COMPLETION_DATE_TIME.toString () );
-        if ( completedDate.isEmpty () )
+        if ( completedDateTime.isEmpty () )
         {
-            completedDate = "Status: Ongoing";
+            completedDateTime = "Status: Ongoing";
 
         }
         else
         {
-            completedDate = "Completed: " + completedDate;
+            completedDateTime = "Completed: " + completedDateTime;
         }
-        goalCompletionDateTimeTextView.setText ( completedDate );
-
-
+        goalCompletionDateTimeTextView.setText ( completedDateTime );
 
         taskRecyclerViewAdapter = new TaskRecyclerViewAdapter (
                 this,
@@ -81,5 +86,57 @@ public class GoalEditorActivity extends AppCompatActivity
         );
         taskRecyclerView = ( RecyclerView ) findViewById ( R.id.taskRecyclerView );
         taskRecyclerView.setAdapter ( taskRecyclerViewAdapter );
+
+        createNewTaskButton = ( Button ) findViewById ( R.id.createNewTaskButton );
+        createNewTaskButton.setOnClickListener ( new View.OnClickListener ()
+        {
+            @Override
+            public void onClick ( View v )
+            {
+                showTaskEditDialog ();
+            }
+        } );
+    }
+
+    private void showTaskEditDialog ()
+    {
+        FragmentTransaction fragmentTransaction = getFragmentManager ().beginTransaction ();
+        Fragment previousFragment = getFragmentManager ()
+                .findFragmentByTag ( FRAGMENT_TAG );
+
+        if ( previousFragment != null )
+        {
+            fragmentTransaction.remove ( previousFragment );
+        }
+        fragmentTransaction.addToBackStack ( null );
+
+        EditTaskDialogFragment editTaskDialogFragment = EditTaskDialogFragment.newInstance (
+                getIntent ().getStringExtra (
+                        DatabaseValues.Column._ID.toString () ),
+                this
+        );
+        editTaskDialogFragment.show (
+                fragmentTransaction,
+                FRAGMENT_TAG
+        );
+    }
+
+    @Override
+    public void notifyActionChange ( boolean change )
+    {
+        if ( !change )
+        {
+            return;
+        }
+
+        taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(
+                this,
+                new Database ( this ).getCursor (
+                        new DatabaseValues.Table [] { DatabaseValues.Table.TASK },
+                        null
+                )
+        );
+        taskRecyclerView.setAdapter ( taskRecyclerViewAdapter );
+        taskRecyclerView.getAdapter ().notifyDataSetChanged ();
     }
 }

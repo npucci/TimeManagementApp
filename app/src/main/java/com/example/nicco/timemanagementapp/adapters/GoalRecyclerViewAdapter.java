@@ -191,6 +191,7 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
                     goalCompletionDateTimeTextView.getText ().toString ()
             );
 
+
             context.startActivity ( intent );
         }
     }

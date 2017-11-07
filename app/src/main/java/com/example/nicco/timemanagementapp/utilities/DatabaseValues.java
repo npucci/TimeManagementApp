@@ -62,10 +62,11 @@ public class DatabaseValues
                     Column.GOAL_ID.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.TASK_ESTIMATED_COST.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( 1 ), " +
+                    Column.TASK_DUE_DATE.getColumnNameAndDataType () +
+                    " NOT NULL DEFAULT ( DATETIME ( 'now', 'localtime') ), " +
                     Column.TASK_CREATION_DATE_TIME.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( DATETIME ( 'now', 'localtime') ), " +
                     Column.TASK_COMPLETION_DATE_TIME.getColumnNameAndDataType () + ", " +
-                    Column.TASK_DUE_DATE.getColumnNameAndDataType () + ", " +
                     "CONSTRAINT UC_" + Table.TASK + " UNIQUE ( " +
                     Column._ID + ", " +
                     Column.TASK_TITLE + " ) " +
@@ -155,10 +156,6 @@ public class DatabaseValues
         TASK_CREATION_DATE_TIME (
                 "task_creation_date_time",
                 "DATETIME"
-        ),
-        TASK_DESCRIPTION (
-                "task_description",
-                "VARCHAR ( " + DESCRIPTION_VARCHAR_LENGTH + " )"
         ),
         TASK_DUE_DATE (
                 "task_due_date",
