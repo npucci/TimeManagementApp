@@ -11,7 +11,7 @@ public class DatabaseValues
 
     public static final String CREATE_TABLE_GOAL =
             "CREATE TABLE " + Table.GOAL.tableName + " ( " +
-                    Column.GOAL_KEY.getColumnNameAndDataType () +
+                    Column._ID.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     Column.GOAL_TITLE.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.GOAL_DESCRIPTION.getColumnNameAndDataType () + ", " +
@@ -26,7 +26,7 @@ public class DatabaseValues
 
     public static final String CREATE_TABLE_CATEGORY =
             "CREATE TABLE " + Table.CATEGORY.tableName + " ( " +
-                    Column.CATEGORY_KEY.getColumnNameAndDataType () +
+                    Column._ID.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     Column.CATEGORY_TYPE.getColumnNameAndDataType () +
                     " NOT NULL" +", " +
@@ -37,29 +37,29 @@ public class DatabaseValues
 
     public static final String CREATE_TABLE_RETROSPECTIVE =
             "CREATE TABLE " + Table.RETROSPECTIVE.tableName + " ( " +
-                    Column.RETROSPECTIVE_KEY.getColumnNameAndDataType () +
+                    Column._ID.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     Column.RETROSPECTIVE_TITLE.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( 'Entry' ), " +
-                    Column.GOAL_KEY.getColumnNameAndDataType () + " NOT NULL, " +
+                    Column._ID.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.RETROSPECTIVE_ENTRY.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.RETROSPECTIVE_CREATION_DATE.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( DATETIME ( 'now' ) ), " +
                     "CONSTRAINT UC_Retrospective UNIQUE ( " +
                     Column.RETROSPECTIVE_CREATION_DATE + " ) " +
-                    "FOREIGN KEY ( " + Column.GOAL_KEY + " ) " +
+                    "FOREIGN KEY ( " + Column._ID + " ) " +
                     "REFERENCES " + Table.GOAL + " ( " +
-                    Column.GOAL_KEY + " ) ON DELETE CASCADE" +
+                    Column._ID + " ) ON DELETE CASCADE" +
                     " )";
     public static final String DROP_TABLE_RETROSPECTIVE = "DROP TABLE IF EXISTS " +
             Table.RETROSPECTIVE;
 
     public static final String CREATE_TABLE_TASK =
             "CREATE TABLE " + Table.TASK.tableName + " ( " +
-                    Column.TASK_KEY.getColumnNameAndDataType () +
+                    Column._ID.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     Column.TASK_TITLE.getColumnNameAndDataType () + " NOT NULL, " +
-                    Column.GOAL_KEY.getColumnNameAndDataType () + " NOT NULL, " +
+                    Column._ID.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.TASK_DESCRIPTION.getColumnNameAndDataType () + ", " +
                     Column.TASK_ESTIMATED_COST.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( 1 ), " +
@@ -68,11 +68,11 @@ public class DatabaseValues
                     Column.TASK_COMPLETION_DATE_TIME.getColumnNameAndDataType () + ", " +
                     Column.TASK_DUE_DATE.getColumnNameAndDataType () + ", " +
                     "CONSTRAINT UC_" + Table.TASK + " UNIQUE ( " +
-                    Column.GOAL_KEY + ", " +
+                    Column._ID + ", " +
                     Column.TASK_TITLE + " ) " +
-                    "FOREIGN KEY ( " + Column.GOAL_KEY + " ) " +
+                    "FOREIGN KEY ( " + Column._ID + " ) " +
                     "REFERENCES " + Table.GOAL + " ( " +
-                    Column.GOAL_KEY + " ) ON DELETE CASCADE" +
+                    Column._ID + " ) ON DELETE CASCADE" +
                     " )";
     public static final String DROP_TABLE_TASK = "DROP TABLE IF EXISTS " + Table.TASK;
 
@@ -105,10 +105,6 @@ public class DatabaseValues
 
     public enum Column
     {
-        CATEGORY_KEY (
-                "category_key",
-                "INTEGER"
-        ),
         CATEGORY_TYPE (
                 "category_type",
                 "VARCHAR ( " + CATEGORY_TYPE_VARCHAR_LENGTH + " )"
@@ -122,10 +118,6 @@ public class DatabaseValues
                 "goal_creation_date_time",
                 "DATETIME"
         ),
-        GOAL_KEY (
-                "goal_key",
-                "INTEGER"
-        ),
         GOAL_TITLE (
                 "goal_title",
                 "VARCHAR ( " + TITLE_VARCHAR_LENGTH + " )"
@@ -135,13 +127,14 @@ public class DatabaseValues
                 "VARCHAR ( " + DESCRIPTION_VARCHAR_LENGTH + " )"
         ),
 
+        _ID (
+                "_id",
+                "INTEGER"
+        ),
+
         RETROSPECTIVE_CREATION_DATE (
                 "retrospective_creation_date",
                 "DATE"
-        ),
-        RETROSPECTIVE_KEY (
-                "retrospective_key",
-                "INTEGER"
         ),
         RETROSPECTIVE_ENTRY (
                 "retrospective_entry",
@@ -170,10 +163,6 @@ public class DatabaseValues
         ),
         TASK_ESTIMATED_COST (
                 "task_estimated_cost",
-                "INTEGER"
-        ),
-        TASK_KEY (
-                "task_key",
                 "INTEGER"
         ),
         TASK_TITLE (
