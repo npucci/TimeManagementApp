@@ -58,10 +58,21 @@ public class Database
         return results.toArray ( new String [ results.size () ] );
     }
 
-    public Cursor getCursor ( DatabaseValues.Table table )
+    public Cursor getCursor (
+            DatabaseValues.Table table,
+            String where
+    )
     {
+        if ( where == null )
+        {
+            where = "";
+        }
+        else
+        {
+            where = " " + where;
+        }
         return db.rawQuery (
-                "SELECT * " + " FROM " + table,
+                "SELECT * " + " FROM " + table + where + " ORDER BY " + DatabaseValues.Column._ID + " DESC",
                 null
         );
     }

@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,15 +19,12 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
 {
     private Context context;
     private CursorAdapter cursorAdapter;
-    private final AdapterView.OnItemClickListener itemListener;
 
     public GoalRecyclerViewAdapter (
             Context context,
-            AdapterView.OnItemClickListener itemListener,
             Cursor cursor
     ) {
         this.context = context;
-        this.itemListener = itemListener;
 
         cursorAdapter = new CursorAdapter (
                 context,
@@ -122,7 +118,7 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
         return cursorAdapter.getCount ();
     }
 
-    public static class GoalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public class GoalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public TextView goalKeyTextView;
         public TextView goalTitleTextView;
@@ -156,13 +152,13 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
         {
             Toast.makeText(
                     context,
-                    "row " + ( 1 + getAdapterPosition () ) +
-                            ":  " + goalKeyTextView.getText () +
+                            goalKeyTextView.getText () +
                             " " + goalTitleTextView.getText () +
                             " " + categoryTypeTextView.getText () +
                             " " + goalCreationDateTimeTextView.getText (),
                     Toast.LENGTH_LONG
             ).show ();
+
         }
     }
 }

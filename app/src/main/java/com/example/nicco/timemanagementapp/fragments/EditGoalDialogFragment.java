@@ -3,7 +3,6 @@ package com.example.nicco.timemanagementapp.fragments;
 import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.nicco.timemanagementapp.interfaces.ChangeListener;
 import com.example.nicco.timemanagementapp.R;
+import com.example.nicco.timemanagementapp.interfaces.NullChangeListener;
 import com.example.nicco.timemanagementapp.utilities.Database;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
@@ -26,12 +27,25 @@ public class EditGoalDialogFragment extends DialogFragment
 {
     public static final String FRAGMENT_TAG = "editGoalDialog";
 
+    private ChangeListener changeListener;
+
     private EditText goalTitleEditText;
     private EditText goalDescriptionEditText;
 
     private Spinner categorySpinner;
 
     private Button saveButton;
+
+    public static EditGoalDialogFragment newInstance ( ChangeListener changeListener )
+    {
+        EditGoalDialogFragment editGoalDialogFragment = new EditGoalDialogFragment ();
+        if ( changeListener == null )
+        {
+            changeListener = new NullChangeListener ();
+        }
+        editGoalDialogFragment.setChangeListener ( changeListener );
+        return editGoalDialogFragment;
+    }
 
     @Override
     public void onCreate ( Bundle savedInstanceState )
@@ -110,13 +124,16 @@ public class EditGoalDialogFragment extends DialogFragment
                         contentValues
                 );
 
-                Log.v (
-                        "PUCCI",
-                        "id = " + id
-                );
+                changeListener.notifyActionChange ( true );
+                dismiss ();
             }
         } );
 
         return view;
+    }
+
+    private void setChangeListener ( ChangeListener changeListener )
+    {
+        this.changeListener = changeListener;
     }
 }

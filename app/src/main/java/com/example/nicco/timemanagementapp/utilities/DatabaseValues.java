@@ -16,7 +16,7 @@ public class DatabaseValues
                     Column.GOAL_TITLE.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.GOAL_DESCRIPTION.getColumnNameAndDataType () + ", " +
                     Column.CATEGORY_TYPE.getColumnNameAndDataType () + " NOT NULL, " +
-                    Column.GOAL_CREATION_DATE_TIME.getColumnNameAndDataType () + " NOT NULL DEFAULT ( DATETIME ( 'now' ) ), " +
+                    Column.GOAL_CREATION_DATE_TIME.getColumnNameAndDataType () + " NOT NULL DEFAULT ( DATETIME ( 'now', 'localtime') ), " +
                     Column.GOAL_COMPLETION_DATE_TIME.getColumnNameAndDataType () + ", " +
                     "FOREIGN KEY ( " + Column.CATEGORY_TYPE + " ) " +
                     "REFERENCES " + Table.CATEGORY + " ( " +
@@ -44,7 +44,7 @@ public class DatabaseValues
                     Column._ID.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.RETROSPECTIVE_ENTRY.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.RETROSPECTIVE_CREATION_DATE.getColumnNameAndDataType () +
-                    " NOT NULL DEFAULT ( DATETIME ( 'now' ) ), " +
+                    " NOT NULL DEFAULT ( DATETIME ( 'now', 'localtime') ), " +
                     "CONSTRAINT UC_Retrospective UNIQUE ( " +
                     Column.RETROSPECTIVE_CREATION_DATE + " ) " +
                     "FOREIGN KEY ( " + Column._ID + " ) " +
@@ -64,7 +64,7 @@ public class DatabaseValues
                     Column.TASK_ESTIMATED_COST.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( 1 ), " +
                     Column.TASK_CREATION_DATE_TIME.getColumnNameAndDataType () +
-                    " NOT NULL DEFAULT ( DATETIME ( 'now' ) ), " +
+                    " NOT NULL DEFAULT ( DATETIME ( 'now', 'localtime') ), " +
                     Column.TASK_COMPLETION_DATE_TIME.getColumnNameAndDataType () + ", " +
                     Column.TASK_DUE_DATE.getColumnNameAndDataType () + ", " +
                     "CONSTRAINT UC_" + Table.TASK + " UNIQUE ( " +
