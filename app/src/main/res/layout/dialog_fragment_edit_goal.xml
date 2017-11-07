@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
+            android:maxLength="@integer/title_varchar_length"
             android:textSize="20sp" />
 
         <TextView
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
+            android:maxLength="@integer/description_varchar_length"
             android:textSize="20sp" />
 
         <TextView

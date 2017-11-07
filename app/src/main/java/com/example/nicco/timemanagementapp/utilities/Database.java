@@ -43,7 +43,7 @@ public class Database
     public String [] getAllCategories ()
     {
         Cursor cursor = db.rawQuery (
-                "SELECT " + DatabaseValues.Column.CATEGORY_TYPE.toString () +
+                "SELECT " + DatabaseValues.Column.CATEGORY_TYPE +
                         " FROM " + DatabaseValues.Table.CATEGORY,
                 null
         );
@@ -58,18 +58,24 @@ public class Database
         return results.toArray ( new String [ results.size () ] );
     }
 
-//    public Cursor getSelectedDataCursor ( DatabaseValues.Table table, DatabaseValues.Column [] databaseColumns )
-//    {
-//        return db.query (
-//                table.toString (),
-//                enumArrayToStringArray ( databaseColumns ),
-//                null,
-//                null,
-//                null,
-//                null,
-//                null
-//        );
-//    }
+    public Cursor getCursor (
+            DatabaseValues.Table table,
+            String where
+    )
+    {
+        if ( where == null )
+        {
+            where = "";
+        }
+        else
+        {
+            where = " " + where;
+        }
+        return db.rawQuery (
+                "SELECT * " + " FROM " + table + where + " ORDER BY " + DatabaseValues.Column._ID + " DESC",
+                null
+        );
+    }
 
 //    private String [] enumArrayToStringArray ( Enum [] enums )
 //    {
