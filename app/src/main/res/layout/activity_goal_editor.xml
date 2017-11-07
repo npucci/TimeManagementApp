@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.nicco.timemanagementapp.activities.GoalEditorActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/goalKeyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="#id" />
+
+            <TextView
+                android:id="@+id/goalTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Title" />
+
+            <TextView
+                android:id="@+id/goalDescriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Description" />
+
+            <TextView
+                android:id="@+id/categoryTypeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Category" />
+
+            <TextView
+                android:id="@+id/goalCreationDateTimeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Creation Date" />
+
+            <TextView
+                android:id="@+id/goalCompletionDateTimeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Completion Date" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <View
+        style="@style/HorizontalDivider" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/taskRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:background="@color/gray"
+        app:layoutManager="LinearLayoutManager" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="@string/new_task" />
+
+
+</LinearLayout>

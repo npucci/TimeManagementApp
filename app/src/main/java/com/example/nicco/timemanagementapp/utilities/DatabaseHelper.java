@@ -38,25 +38,25 @@ public class DatabaseHelper extends SQLiteOpenHelper
             db.execSQL ( DatabaseValues.CREATE_TABLE_CATEGORY );
             Log.v (
                     "PUCCI",
-                    "Create Table: " + DatabaseValues.Table.CATEGORY.toString () + "\n"
+                    "Create Table: " + DatabaseValues.Table.CATEGORY + "\n"
             );
 
             db.execSQL ( DatabaseValues.CREATE_TABLE_GOAL );
             Log.v (
                     "PUCCI",
-                    "Create Table: " + DatabaseValues.Table.GOAL.toString () + "\n"
+                    "Create Table: " + DatabaseValues.Table.GOAL + "\n"
             );
 
             db.execSQL ( DatabaseValues.CREATE_TABLE_RETROSPECTIVE );
             Log.v (
                     "PUCCI",
-                    "Create Table: " + DatabaseValues.Table.RETROSPECTIVE.toString () + "\n"
+                    "Create Table: " + DatabaseValues.Table.RETROSPECTIVE + "\n"
             );
 
             db.execSQL ( DatabaseValues.CREATE_TABLE_TASK );
             Log.v (
                     "PUCCI",
-                    "Create Table: " + DatabaseValues.Table.TASK.toString () + "\n"
+                    "Create Table: " + DatabaseValues.Table.TASK + "\n"
             );
 
         }
@@ -82,25 +82,25 @@ public class DatabaseHelper extends SQLiteOpenHelper
             db.execSQL ( DatabaseValues.DROP_TABLE_CATEGORY );
             Log.v (
                     "PUCCI",
-                    "Drop Table: " + DatabaseValues.Table.CATEGORY.toString () + "\n"
+                    "Drop Table: " + DatabaseValues.Table.CATEGORY + "\n"
             );
 
             db.execSQL ( DatabaseValues.DROP_TABLE_GOAL );
             Log.v (
                     "PUCCI",
-                    "Drop Table: " + DatabaseValues.Table.GOAL.toString () + "\n"
+                    "Drop Table: " + DatabaseValues.Table.GOAL + "\n"
             );
 
             db.execSQL ( DatabaseValues.DROP_TABLE_RETROSPECTIVE );
             Log.v (
                     "PUCCI",
-                    "Drop Table: " + DatabaseValues.Table.RETROSPECTIVE.toString () + "\n"
+                    "Drop Table: " + DatabaseValues.Table.RETROSPECTIVE + "\n"
             );
 
             db.execSQL ( DatabaseValues.DROP_TABLE_TASK );
             Log.v (
                     "PUCCI",
-                    "Drop Table: " + DatabaseValues.Table.TASK.toString () + "\n"
+                    "Drop Table: " + DatabaseValues.Table.TASK + "\n"
             );
 
             onCreate ( db );

@@ -1,6 +1,7 @@
-package com.example.nicco.timemanagementapp.activities;
+package com.example.nicco.timemanagementapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,10 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nicco.timemanagementapp.R;
+import com.example.nicco.timemanagementapp.activities.GoalEditorActivity;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
 public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
-        <GoalRecyclerViewAdapter.GoalViewHolder>
+        < GoalRecyclerViewAdapter.GoalViewHolder >
 {
     private Context context;
     private CursorAdapter cursorAdapter;
@@ -159,6 +161,37 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
                     Toast.LENGTH_LONG
             ).show ();
 
+            Intent intent = new Intent (
+                    context,
+                    GoalEditorActivity.class
+            );
+
+            intent.putExtra (
+                    DatabaseValues.Column._ID.toString (),
+                    goalKeyTextView.getText ().toString ()
+            );
+            intent.putExtra (
+                    DatabaseValues.Column.GOAL_TITLE.toString (),
+                    goalTitleTextView.getText ().toString ()
+            );
+            intent.putExtra (
+                    DatabaseValues.Column.GOAL_DESCRIPTION.toString (),
+                    goalDescriptionTextView.getText ().toString ()
+            );
+            intent.putExtra (
+                    DatabaseValues.Column.CATEGORY_TYPE.toString (),
+                    categoryTypeTextView.getText ().toString ()
+            );
+            intent.putExtra (
+                    DatabaseValues.Column.GOAL_CREATION_DATE_TIME.toString (),
+                    goalCreationDateTimeTextView.getText ().toString ()
+            );
+            intent.putExtra (
+                    DatabaseValues.Column.GOAL_COMPLETION_DATE_TIME.toString (),
+                    goalCompletionDateTimeTextView.getText ().toString ()
+            );
+
+            context.startActivity ( intent );
         }
     }
 }

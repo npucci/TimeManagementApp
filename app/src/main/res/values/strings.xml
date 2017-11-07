@@ -13,6 +13,7 @@
     <string name="to_analytics_checklist">To Analytics</string>
     <string name="to_retrospective">To Retrospective</string>
     <string name="new_goal">New Goal</string>
+    <string name="new_task">New Task</string>
     <string name="save">Save</string>
 
 </resources>

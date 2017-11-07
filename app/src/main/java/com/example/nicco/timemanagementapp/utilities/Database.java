@@ -23,7 +23,6 @@ public class Database
         this.context = context;
         databaseHelper = new DatabaseHelper ( context );
         db = databaseHelper.getWritableDatabase ();
-        db = databaseHelper.getWritableDatabase ();
     }
 
     public Long insertData (
@@ -59,11 +58,15 @@ public class Database
     }
 
     public Cursor getCursor (
-            DatabaseValues.Table table,
+            DatabaseValues.Table [] tables,
             String where
     )
     {
-        if ( where == null )
+        if ( tables == null || tables.length == 0 )
+        {
+            return null;
+        }
+        else if ( where == null )
         {
             where = "";
         }
@@ -71,8 +74,30 @@ public class Database
         {
             where = " " + where;
         }
+
+        String tableArgs = tables [ 0 ].toString ();
+        for ( int i = 1 ; i < tables.length ; i++ )
+        {
+            tableArgs += " INNER JOIN " + tables [ i ];
+        }
+
+        String selectArgs = tables [ 0 ] + "." + DatabaseValues.Column._ID;
+        for ( int i = 1 ; i < tables.length ; i++ )
+        {
+            selectArgs += ", " + tables [ i ] + "." + DatabaseValues.Column._ID;
+        }
+        selectArgs += ", *";
+
+        String sql = "SELECT " + selectArgs + " FROM " + tableArgs + where +
+                " ORDER BY " + tables [ 0 ] + "." + DatabaseValues.Column._ID + " DESC";
+
+//        Log.v (
+//                "PUCCI",
+//                "sql = " + sql
+//        );
+
         return db.rawQuery (
-                "SELECT * " + " FROM " + table + where + " ORDER BY " + DatabaseValues.Column._ID + " DESC",
+                sql,
                 null
         );
     }

@@ -10,7 +10,7 @@ public class DatabaseValues
     public static final String DATABASE_NAME = "TimeManagementDatabase";
 
     public static final String CREATE_TABLE_GOAL =
-            "CREATE TABLE " + Table.GOAL.tableName + " ( " +
+            "CREATE TABLE " + Table.GOAL + " ( " +
                     Column._ID.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     Column.GOAL_TITLE.getColumnNameAndDataType () + " NOT NULL, " +
@@ -25,7 +25,7 @@ public class DatabaseValues
     public static final String DROP_TABLE_GOAL = "DROP TABLE IF EXISTS " + Table.GOAL;
 
     public static final String CREATE_TABLE_CATEGORY =
-            "CREATE TABLE " + Table.CATEGORY.tableName + " ( " +
+            "CREATE TABLE " + Table.CATEGORY + " ( " +
                     Column._ID.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     Column.CATEGORY_TYPE.getColumnNameAndDataType () +
@@ -36,18 +36,18 @@ public class DatabaseValues
     public static final String DROP_TABLE_CATEGORY = "DROP TABLE IF EXISTS " + Table.CATEGORY;
 
     public static final String CREATE_TABLE_RETROSPECTIVE =
-            "CREATE TABLE " + Table.RETROSPECTIVE.tableName + " ( " +
+            "CREATE TABLE " + Table.RETROSPECTIVE + " ( " +
                     Column._ID.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     Column.RETROSPECTIVE_TITLE.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( 'Entry' ), " +
-                    Column._ID.getColumnNameAndDataType () + " NOT NULL, " +
+                    Column.GOAL_ID.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.RETROSPECTIVE_ENTRY.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.RETROSPECTIVE_CREATION_DATE.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( DATETIME ( 'now', 'localtime') ), " +
                     "CONSTRAINT UC_Retrospective UNIQUE ( " +
                     Column.RETROSPECTIVE_CREATION_DATE + " ) " +
-                    "FOREIGN KEY ( " + Column._ID + " ) " +
+                    "FOREIGN KEY ( " + Column.GOAL_ID + " ) " +
                     "REFERENCES " + Table.GOAL + " ( " +
                     Column._ID + " ) ON DELETE CASCADE" +
                     " )";
@@ -55,12 +55,11 @@ public class DatabaseValues
             Table.RETROSPECTIVE;
 
     public static final String CREATE_TABLE_TASK =
-            "CREATE TABLE " + Table.TASK.tableName + " ( " +
+            "CREATE TABLE " + Table.TASK + " ( " +
                     Column._ID.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     Column.TASK_TITLE.getColumnNameAndDataType () + " NOT NULL, " +
-                    Column._ID.getColumnNameAndDataType () + " NOT NULL, " +
-                    Column.TASK_DESCRIPTION.getColumnNameAndDataType () + ", " +
+                    Column.GOAL_ID.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.TASK_ESTIMATED_COST.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( 1 ), " +
                     Column.TASK_CREATION_DATE_TIME.getColumnNameAndDataType () +
@@ -70,7 +69,7 @@ public class DatabaseValues
                     "CONSTRAINT UC_" + Table.TASK + " UNIQUE ( " +
                     Column._ID + ", " +
                     Column.TASK_TITLE + " ) " +
-                    "FOREIGN KEY ( " + Column._ID + " ) " +
+                    "FOREIGN KEY ( " + Column.GOAL_ID + " ) " +
                     "REFERENCES " + Table.GOAL + " ( " +
                     Column._ID + " ) ON DELETE CASCADE" +
                     " )";
@@ -110,6 +109,10 @@ public class DatabaseValues
                 "VARCHAR ( " + CATEGORY_TYPE_VARCHAR_LENGTH + " )"
         ),
 
+        GOAL_ID (
+                "goal_id",
+                "INTEGER"
+        ),
         GOAL_COMPLETION_DATE_TIME (
                 "goal_completion_date_time",
                 "DATETIME"
