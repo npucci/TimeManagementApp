@@ -6,56 +6,66 @@
     android:background="@color/white"
     android:layout_marginBottom="10dp">
 
-    <TextView
-        android:id="@+id/goalKeyTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="#id" />
+        android:layout_margin="10dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/goalTitleTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Title" />
+        <TextView
+            android:id="@+id/goalKeyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="#id" />
 
-    <TextView
-        android:id="@+id/goalDescriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Description" />
+        <TextView
+            android:id="@+id/goalTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Title" />
 
-    <TextView
-        android:id="@+id/categoryTypeTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Category" />
+        <TextView
+            android:id="@+id/goalDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Description" />
 
-    <TextView
-        android:id="@+id/goalCreationDateTimeTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Creation Date" />
+        <TextView
+            android:id="@+id/categoryTypeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Category" />
 
-    <TextView
-        android:id="@+id/goalCompletionDateTimeTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Completion Date" />
+        <TextView
+            android:id="@+id/goalCreationDateTimeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Creation Date" />
+
+        <TextView
+            android:id="@+id/goalCompletionDateTimeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/blue"
+            android:text="Completion Date" />
+
+    </LinearLayout>
 
 </LinearLayout>

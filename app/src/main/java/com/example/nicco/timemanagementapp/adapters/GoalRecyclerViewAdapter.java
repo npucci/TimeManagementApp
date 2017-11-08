@@ -83,33 +83,42 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
         );
 
         holder.goalTitleTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
+                "Title: " + cursor.getString ( cursor.getColumnIndex (
                         DatabaseValues.Column.GOAL_TITLE.toString ()
                 ) )
         );
 
         holder.goalDescriptionTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
+                "Description: " + cursor.getString ( cursor.getColumnIndex (
                         DatabaseValues.Column.GOAL_DESCRIPTION.toString ()
                 ) )
         );
 
         holder.categoryTypeTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
+                "Category: " + cursor.getString ( cursor.getColumnIndex (
                         DatabaseValues.Column.CATEGORY_TYPE.toString ()
                 ) )
         );
 
         holder.goalCreationDateTimeTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
+                "Created: " + cursor.getString ( cursor.getColumnIndex (
                         DatabaseValues.Column.GOAL_CREATION_DATE_TIME.toString ()
                 ) )
         );
 
+        String completedDateTime = cursor.getString ( cursor.getColumnIndex (
+                DatabaseValues.Column.GOAL_COMPLETION_DATE_TIME.toString ()
+        ) );
+        if ( completedDateTime == null || completedDateTime.isEmpty () )
+        {
+            completedDateTime = "Status: Ongoing";
+        }
+        else
+        {
+            completedDateTime = "Completed: " + completedDateTime;
+        }
         holder.goalCompletionDateTimeTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
-                        DatabaseValues.Column.GOAL_COMPLETION_DATE_TIME.toString ()
-                ) )
+                completedDateTime
         );
     }
 
