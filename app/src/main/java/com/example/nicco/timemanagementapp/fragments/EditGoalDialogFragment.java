@@ -3,6 +3,7 @@ package com.example.nicco.timemanagementapp.fragments;
 import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.nicco.timemanagementapp.interfaces.ChangeListener;
 import com.example.nicco.timemanagementapp.R;
+import com.example.nicco.timemanagementapp.interfaces.ChangeListener;
 import com.example.nicco.timemanagementapp.interfaces.NullChangeListener;
 import com.example.nicco.timemanagementapp.utilities.Database;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
@@ -119,9 +120,11 @@ public class EditGoalDialogFragment extends DialogFragment
                         goalCategory
                 );
 
-                Long id = database.insertData (
-                        DatabaseValues.Table.GOAL,
-                        contentValues
+                Long insertedGoalID = database.insertNewGoal ( contentValues );
+
+                Log.v (
+                        "PUCCI",
+                        "insertedGoalID = " + insertedGoalID
                 );
 
                 changeListener.notifyActionChange ( true );

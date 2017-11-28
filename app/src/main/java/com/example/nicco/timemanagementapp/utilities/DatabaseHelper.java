@@ -59,6 +59,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
                     "Create Table: " + DatabaseValues.Table.TASK + "\n"
             );
 
+            db.execSQL ( DatabaseValues.CREATE_TABLE_PROGRESS );
+            Log.v (
+                    "PUCCI",
+                    "Create Table: " + DatabaseValues.Table.PROGRESS + "\n"
+            );
+
         }
         catch ( SQLException e )
         {

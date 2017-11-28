@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.nicco.timemanagementapp.fragments.EditGoalDialogFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+
+
+        <TextView
+            android:id="@+id/taskTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Title"
+            android:textColor="@color/black"
+            android:layout_marginBottom="10dp"
+            android:textSize="@dimen/titleTextSize" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/hoursSpentTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Hours spent"
+                android:textSize="@dimen/regularTextSize" />
+
+            <Spinner
+                android:id="@+id/hoursSpentSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/regularTextSize" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/percentageCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Percentage Complete"
+            android:textSize="@dimen/regularTextSize" />
+
+        <SeekBar
+            android:id="@+id/percentageCompletePointSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:paddingTop="10dp"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/taskCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:textColor="@color/green"
+            android:text="@string/task_complete"
+            android:textSize="@dimen/titleTextSize" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/save"
+            android:textSize="@dimen/regularTextSize" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nicco.timemanagementapp.R;
-import com.example.nicco.timemanagementapp.activities.GoalEditorActivity;
+import com.example.nicco.timemanagementapp.activities.GoalTaskManagerActivity;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
 public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
@@ -172,7 +172,7 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
 
             Intent intent = new Intent (
                     context,
-                    GoalEditorActivity.class
+                    GoalTaskManagerActivity.class
             );
 
             intent.putExtra (

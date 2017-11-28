@@ -12,13 +12,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nicco.timemanagementapp.R;
+import com.example.nicco.timemanagementapp.interfaces.NullOnTaskClickListener;
+import com.example.nicco.timemanagementapp.interfaces.OnTaskClickListener;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
-public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
-        < TaskRecyclerViewAdapter.TaskViewHolder >
-{
+public class TaskRecyclerViewAdapter
+        extends RecyclerView.Adapter < TaskRecyclerViewAdapter.TaskViewHolder > {
+
     private Context context;
     private CursorAdapter cursorAdapter;
+    private OnTaskClickListener onTaskClickListener;
 
     public TaskRecyclerViewAdapter (
             Context context,
@@ -49,6 +52,16 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
 
             }
         };
+
+        onTaskClickListener = new NullOnTaskClickListener ();
+    }
+
+    public void setOnTaskClickListener ( OnTaskClickListener onTaskClickListener )
+    {
+        if ( onTaskClickListener != null )
+        {
+            this.onTaskClickListener = onTaskClickListener;
+        }
     }
 
     @Override
@@ -108,17 +121,17 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
 
         try
         {
-            float completionPercentage = Float.parseFloat ( cursor.getString ( cursor.getColumnIndex (
+            int completionPercentage = Integer.parseInt ( cursor.getString ( cursor.getColumnIndex (
                     DatabaseValues.Column.TASK_COMPLETION_PERCENTAGE.toString ()
             ) ) );
             holder.taskCompletionPercentageTextView.setText (
-                    "Completion Percentage: " + completionPercentage
+                    "Completion: " + completionPercentage + "%"
             );
         }
 
         catch ( Exception e )
         {
-            holder.taskCompletionPercentageTextView.setText ( "Completion %: -1" );
+            holder.taskCompletionPercentageTextView.setText ( "Completion: N/A" );
         }
 
         holder.taskCreationDateTimeTextView.setText (
@@ -138,7 +151,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
                 DatabaseValues.Column.TASK_COMPLETION_DATE_TIME.toString () ) );
         if ( completedDateTime == null || completedDateTime.isEmpty () )
         {
-            completedDateTime = "Completion Date: Ongoing";
+            completedDateTime = "Ongoing";
 
         }
         holder.taskCompletionDateTimeTextView.setText ( "Completion Date: " + completedDateTime );
@@ -192,10 +205,11 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
         {
             Toast.makeText(
                     context,
-                    "task key = " + taskKey + ", taskEstimatedCost = " + taskEstimatedCost,
+                    "task key = " + taskKey,
                     Toast.LENGTH_LONG
             ).show ();
 
+            onTaskClickListener.onTaskClick ( "" + taskKey );
         }
     }
 }

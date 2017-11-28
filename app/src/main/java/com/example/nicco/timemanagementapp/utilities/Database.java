@@ -25,7 +25,37 @@ public class Database
         db = databaseHelper.getWritableDatabase ();
     }
 
-    public Long insertData (
+    public Long insertNewGoal ( ContentValues contentValues )
+    {
+
+        return insertData (
+                DatabaseValues.Table.GOAL,
+                contentValues
+        );
+    }
+
+    public Long insertNewTask ( ContentValues contentValues )
+    {
+
+        Long insertedTaskID = insertData (
+                DatabaseValues.Table.TASK,
+                contentValues
+        );
+
+        return insertedTaskID;
+    }
+
+    public Long insertNewProgress ( ContentValues contentValues )
+    {
+        Long insertedProgressID = insertData (
+                DatabaseValues.Table.PROGRESS,
+                contentValues
+        );
+
+        return insertedProgressID;
+    }
+
+    private Long insertData (
             DatabaseValues.Table table,
             ContentValues contentValues
     ) {
@@ -37,6 +67,72 @@ public class Database
         );
 
         return id;
+    }
+
+    public boolean updateTask (
+            String _ID,
+            ContentValues contentValues
+    ) {
+
+        return updateData (
+                DatabaseValues.Table.TASK,
+                contentValues,
+                DatabaseValues.Column._ID + " = " + "'" + _ID + "'"
+        );
+    }
+
+    public String getExistingProgressID (
+            String taskID,
+            String date
+    ) {
+        String sql = "SELECT " + DatabaseValues.Column._ID +
+                " FROM " + DatabaseValues.Table.PROGRESS +
+                " WHERE " + DatabaseValues.Column.TASK_ID + " = " + "'" + taskID + "'" + " AND " +
+                DatabaseValues.Column.PROGRESS_DATE + " = " + "'" + date + "'";
+
+        Cursor cursor = db.rawQuery (
+                sql,
+                null
+        );
+
+        String progressID = null;
+        if ( cursor.moveToFirst () )
+        {
+            progressID = cursor.getString ( 0 );
+        }
+
+        cursor.close ();
+        return progressID;
+    }
+
+    public boolean updateProgress (
+            String _ID,
+            String taskID,
+            ContentValues contentValues
+    ) {
+
+        return updateData (
+                DatabaseValues.Table.PROGRESS,
+                contentValues,
+                DatabaseValues.Column.TASK_ID + " = " + "'" + taskID + "'" + " AND " +
+                        DatabaseValues.Column._ID + " = " + "'" + _ID + "'"
+        );
+    }
+
+    private boolean updateData (
+            DatabaseValues.Table table,
+            ContentValues contentValues,
+            String where
+    ) {
+
+        int numRowsEffected = db.update (
+                table.toString (),
+                contentValues,
+                where,
+                null
+        );
+
+        return numRowsEffected != 0;
     }
 
     public String [] getAllCategories ()
@@ -110,5 +206,20 @@ public class Database
                 sql,
                 null
         );
+    }
+
+    public int totalSpentHoursOnTask ( String taskID )
+    {
+        String sql = "SELECT SUM ( " + DatabaseValues.Column.PROGRESS_HOURS_SPENT + " )" +
+                " FROM " + DatabaseValues.Table.PROGRESS +
+                " WHERE " + DatabaseValues.Column.TASK_ID + " = " + taskID;
+
+        Cursor sumResult = db.rawQuery (
+                sql,
+                null
+        );
+
+        sumResult.moveToFirst ();
+        return sumResult.getInt ( 0 );
     }
 }

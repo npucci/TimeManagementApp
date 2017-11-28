@@ -7,6 +7,7 @@
     <string name="goal_description">Enter a Description (optional):</string>
     <string name="select_category">Select a Category:</string>
     <string name="task_estimated_cost">Estimated Difficulty:</string>
+    <string name="task_complete">Task Complete!</string>
     <string name="task_deadline">Enter a Deadline:</string>
 
     <!-- BUTTONS -->

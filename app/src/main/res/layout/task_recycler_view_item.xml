@@ -20,7 +20,7 @@
             android:maxLines="1"
             android:text="Title"
             android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:textSize="@dimen/titleTextSize" />
 
         <TextView
             android:id="@+id/taskCompletionPercentageTextView"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="Completion Percentage"
             android:textColor="@color/blue"
-            android:textSize="18sp" />
+            android:textSize="@dimen/regularTextSize" />
 
         <TextView
             android:id="@+id/taskDeadlineTextView"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="Deadline"
             android:textColor="@color/red"
-            android:textSize="18sp" />
+            android:textSize="@dimen/regularTextSize" />
 
         <View
             style="@style/HorizontalDivider"
@@ -46,14 +46,14 @@
             android:id="@+id/taskCreationDateTimeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/smallTextSize"
             android:text="Creation Date" />
 
         <TextView
             android:id="@+id/taskCompletionDateTimeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/smallTextSize"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Completion Date" />

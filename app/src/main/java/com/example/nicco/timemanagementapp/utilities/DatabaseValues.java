@@ -68,12 +68,27 @@ public class DatabaseValues
                     " NOT NULL DEFAULT ( DATETIME ( 'now', 'localtime') ), " +
                     Column.TASK_COMPLETION_DATE_TIME.getColumnNameAndDataType () + ", " +
                     Column.TASK_COMPLETION_PERCENTAGE.getColumnNameAndDataType () + ", " +
-                    Column.TASK_TOTAL_HOURS_SPENT.getColumnNameAndDataType () + ", " +
                     "CONSTRAINT UC_" + Table.TASK + " UNIQUE ( " +
                     Column._ID + ", " +
                     Column.TASK_TITLE + " ) " +
                     "FOREIGN KEY ( " + Column.GOAL_ID + " ) " +
                     "REFERENCES " + Table.GOAL + " ( " +
+                    Column._ID + " ) ON DELETE CASCADE" +
+                    " )";
+
+    public static final String CREATE_TABLE_PROGRESS =
+            "CREATE TABLE " + Table.PROGRESS + " ( " +
+                    Column._ID.getColumnNameAndDataType () +
+                    " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    Column.TASK_ID.getColumnNameAndDataType () + " NOT NULL, " +
+                    Column.PROGRESS_DATE.getColumnNameAndDataType () + " NOT NULL, " +
+                    Column.PROGRESS_HOURS_SPENT.getColumnNameAndDataType () +
+                    " NOT NULL DEFAULT ( 0 ), " +
+                    "CONSTRAINT UC_" + Table.PROGRESS + " UNIQUE ( " +
+                    Column.TASK_ID + ", " +
+                    Column.PROGRESS_DATE + " ) " +
+                    "FOREIGN KEY ( " + Column.TASK_ID + " ) " +
+                    "REFERENCES " + Table.TASK + " ( " +
                     Column._ID + " ) ON DELETE CASCADE" +
                     " )";
     public static final String DROP_TABLE_TASK = "DROP TABLE IF EXISTS " + Table.TASK;
@@ -88,6 +103,7 @@ public class DatabaseValues
     {
         CATEGORY ( "Category" ),
         GOAL ( "Goal" ),
+        PROGRESS ( "Progress" ),
         RETROSPECTIVE ( "Retrospective" ),
         TASK ( "Task" );
 
@@ -138,6 +154,15 @@ public class DatabaseValues
                 "INTEGER"
         ),
 
+        PROGRESS_DATE(
+                "progress_date",
+                "DATE"
+        ),
+        PROGRESS_HOURS_SPENT (
+                "progress_hours_spent",
+                "INTEGER"
+        ),
+
         RETROSPECTIVE_CREATION_DATE (
                 "retrospective_creation_date",
                 "DATE"
@@ -157,7 +182,7 @@ public class DatabaseValues
         ),
         TASK_COMPLETION_PERCENTAGE (
                 "task_completion_percentage",
-                "DECIMAL"
+                "INTEGER"
         ),
         TASK_CREATION_DATE_TIME (
                 "task_creation_date_time",
@@ -171,13 +196,13 @@ public class DatabaseValues
                 "task_estimated_cost",
                 "INTEGER"
         ),
+        TASK_ID (
+                "task_id",
+                "INTEGER"
+        ),
         TASK_TITLE (
                 "task_name",
                 "VARCHAR ( " + TITLE_VARCHAR_LENGTH + " )"
-        ),
-        TASK_TOTAL_HOURS_SPENT (
-                "task_total_hours_spent",
-                "INTEGER"
         );
 
         private String columnName;

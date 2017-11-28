@@ -12,14 +12,14 @@ import android.widget.TextView;
 import com.example.nicco.timemanagementapp.R;
 import com.example.nicco.timemanagementapp.adapters.TaskRecyclerViewAdapter;
 import com.example.nicco.timemanagementapp.fragments.EditTaskDialogFragment;
+import com.example.nicco.timemanagementapp.fragments.UpdateTaskDialogFragment;
 import com.example.nicco.timemanagementapp.interfaces.ChangeListener;
+import com.example.nicco.timemanagementapp.interfaces.OnTaskClickListener;
 import com.example.nicco.timemanagementapp.utilities.Database;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
-import static com.example.nicco.timemanagementapp.fragments.EditTaskDialogFragment.FRAGMENT_TAG;
-
-public class GoalEditorActivity extends AppCompatActivity implements ChangeListener
-{
+public class GoalTaskManagerActivity
+        extends AppCompatActivity implements ChangeListener, OnTaskClickListener {
     private TextView goalKeyTextView;
     private TextView goalTitleTextView;
     private TextView goalDescriptionTextView;
@@ -99,7 +99,7 @@ public class GoalEditorActivity extends AppCompatActivity implements ChangeListe
     {
         FragmentTransaction fragmentTransaction = getFragmentManager ().beginTransaction ();
         Fragment previousFragment = getFragmentManager ()
-                .findFragmentByTag ( FRAGMENT_TAG );
+                .findFragmentByTag ( EditTaskDialogFragment.FRAGMENT_TAG );
 
         if ( previousFragment != null )
         {
@@ -114,7 +114,30 @@ public class GoalEditorActivity extends AppCompatActivity implements ChangeListe
         );
         editTaskDialogFragment.show (
                 fragmentTransaction,
-                FRAGMENT_TAG
+                EditTaskDialogFragment.FRAGMENT_TAG
+        );
+    }
+
+    private void showTaskUpdateDialog ( String taskID )
+    {
+        FragmentTransaction fragmentTransaction = getFragmentManager ().beginTransaction ();
+        Fragment previousFragment = getFragmentManager ()
+                .findFragmentByTag ( UpdateTaskDialogFragment.FRAGMENT_TAG );
+
+        if ( previousFragment != null )
+        {
+            fragmentTransaction.remove ( previousFragment );
+        }
+        fragmentTransaction.addToBackStack ( null );
+
+        UpdateTaskDialogFragment updateTaskDialogFragment = UpdateTaskDialogFragment.newInstance (
+                getIntent ().getStringExtra (
+                        DatabaseValues.Column._ID.toString () ),
+                this
+        );
+        updateTaskDialogFragment.show (
+                fragmentTransaction,
+                UpdateTaskDialogFragment.FRAGMENT_TAG
         );
     }
 
@@ -136,5 +159,11 @@ public class GoalEditorActivity extends AppCompatActivity implements ChangeListe
         );
         taskRecyclerView.setAdapter ( taskRecyclerViewAdapter );
         taskRecyclerView.getAdapter ().notifyDataSetChanged ();
+    }
+
+    @Override
+    public void onTaskClick ( String taskID )
+    {
+
     }
 }

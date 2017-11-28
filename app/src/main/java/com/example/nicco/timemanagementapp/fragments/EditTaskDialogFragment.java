@@ -20,10 +20,7 @@ import com.example.nicco.timemanagementapp.interfaces.ChangeListener;
 import com.example.nicco.timemanagementapp.interfaces.NullChangeListener;
 import com.example.nicco.timemanagementapp.utilities.Database;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.example.nicco.timemanagementapp.utilities.UtilityMethods;
 
 /**
  * Author: Niccolo Pucci
@@ -154,14 +151,13 @@ public class EditTaskDialogFragment extends DialogFragment
                 );
                 contentValues.put (
                         DatabaseValues.Column.TASK_DUE_DATE.toString (),
-                        "" + getDateTime ()
+                        "" + UtilityMethods.getDateTime (
+                                taskDeadlineDatePicker,
+                                taskDeadlineTimePicker
+                        )
                 );
                 contentValues.put (
                         DatabaseValues.Column.TASK_COMPLETION_PERCENTAGE.toString (),
-                        "" + 0.0
-                );
-                contentValues.put (
-                        DatabaseValues.Column.TASK_TOTAL_HOURS_SPENT.toString (),
                         "" + 0
                 );
                 contentValues.put (
@@ -170,13 +166,33 @@ public class EditTaskDialogFragment extends DialogFragment
                 );
 
 
-                Long id = database.insertData (
-                        DatabaseValues.Table.TASK,
-                        contentValues
+                Long insertedTaskID = database.insertNewTask ( contentValues );
+
+                Log.v (
+                        "PUCCI",
+                        "insertedTaskID = " + insertedTaskID
                 );
 
-                Log.v ( "PUCCI", "getDateTime () = " + getDateTime () );
-                Log.v ( "PUCCI", "ID = " + id );
+                ContentValues initialProgress = new ContentValues ();
+                initialProgress.put (
+                        DatabaseValues.Column.PROGRESS_HOURS_SPENT.toString (),
+                        0
+                );
+                initialProgress.put (
+                        DatabaseValues.Column.TASK_ID.toString (),
+                        insertedTaskID
+                );
+                initialProgress.put (
+                        DatabaseValues.Column.PROGRESS_DATE.toString (),
+                        UtilityMethods.getDate ( new DatePicker ( getActivity () ) )
+                );
+
+                Long insertedProgressID = database.insertNewProgress ( initialProgress );
+
+                Log.v (
+                        "PUCCI",
+                        "insertedProgressID = " + insertedProgressID
+                );
 
                 changeListener.notifyActionChange ( true );
                 dismiss ();
@@ -189,48 +205,6 @@ public class EditTaskDialogFragment extends DialogFragment
     private void setGoalID ( String goalID )
     {
         this.goalID = goalID;
-    }
-
-    private String getDateTime ()
-    {
-        String year = "" + taskDeadlineDatePicker.getYear ();
-        String month = "" + ( taskDeadlineDatePicker.getMonth () + 1 );
-        if ( month.length () == 1 )
-        {
-            month = "0" + month;
-        }
-        String day = "" + taskDeadlineDatePicker.getDayOfMonth ();
-        if ( day.length () == 1 )
-        {
-            day = "0" + day;
-        }
-
-        String hour = "" + taskDeadlineTimePicker.getCurrentHour ();
-        if ( hour.length () == 1 )
-        {
-            hour = "0" + hour;
-        }
-
-        String minute = "" + taskDeadlineTimePicker.getCurrentMinute ();
-        if ( minute.length () == 1 )
-        {
-            minute = "0" + day;
-        }
-
-        // YYYY-mm-dd HH:MM:SS
-        String deadlineDateTime = year + "-" + month + "-" + day + " " + hour + ":" +
-                minute + ":00.000";
-        try
-        {
-            Date date = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss.SSS" ).parse ( deadlineDateTime );
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-            return dateFormat.format( date );
-        }
-        catch ( ParseException e )
-        {
-            e.printStackTrace ();
-        }
-        return null;
     }
 
     private void setChangeListener ( ChangeListener changeListener )
