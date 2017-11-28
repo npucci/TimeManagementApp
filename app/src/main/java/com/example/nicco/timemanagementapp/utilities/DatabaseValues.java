@@ -15,12 +15,12 @@ public class DatabaseValues
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     Column.GOAL_TITLE.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.GOAL_DESCRIPTION.getColumnNameAndDataType () + ", " +
-                    Column.CATEGORY_TYPE.getColumnNameAndDataType () + " NOT NULL, " +
+                    Column.GOAL_CATEGORY_TYPE.getColumnNameAndDataType () + " NOT NULL, " +
                     Column.GOAL_CREATION_DATE_TIME.getColumnNameAndDataType () + " NOT NULL DEFAULT ( DATETIME ( 'now', 'localtime') ), " +
                     Column.GOAL_COMPLETION_DATE_TIME.getColumnNameAndDataType () + ", " +
-                    "FOREIGN KEY ( " + Column.CATEGORY_TYPE + " ) " +
+                    "FOREIGN KEY ( " + Column.GOAL_CATEGORY_TYPE + " ) " +
                     "REFERENCES " + Table.CATEGORY + " ( " +
-                    Column.CATEGORY_TYPE + " )" +
+                    Column.GOAL_CATEGORY_TYPE + " )" +
                     " )";
     public static final String DROP_TABLE_GOAL = "DROP TABLE IF EXISTS " + Table.GOAL;
 
@@ -28,10 +28,10 @@ public class DatabaseValues
             "CREATE TABLE " + Table.CATEGORY + " ( " +
                     Column._ID.getColumnNameAndDataType () +
                     " PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                    Column.CATEGORY_TYPE.getColumnNameAndDataType () +
+                    Column.GOAL_CATEGORY_TYPE.getColumnNameAndDataType () +
                     " NOT NULL" +", " +
                     "CONSTRAINT UC_" + Table.CATEGORY + " UNIQUE ( " +
-                    Column.CATEGORY_TYPE + " ) " +
+                    Column.GOAL_CATEGORY_TYPE + " ) " +
                     " )";
     public static final String DROP_TABLE_CATEGORY = "DROP TABLE IF EXISTS " + Table.CATEGORY;
 
@@ -67,6 +67,8 @@ public class DatabaseValues
                     Column.TASK_CREATION_DATE_TIME.getColumnNameAndDataType () +
                     " NOT NULL DEFAULT ( DATETIME ( 'now', 'localtime') ), " +
                     Column.TASK_COMPLETION_DATE_TIME.getColumnNameAndDataType () + ", " +
+                    Column.TASK_COMPLETION_PERCENTAGE.getColumnNameAndDataType () + ", " +
+                    Column.TASK_TOTAL_HOURS_SPENT.getColumnNameAndDataType () + ", " +
                     "CONSTRAINT UC_" + Table.TASK + " UNIQUE ( " +
                     Column._ID + ", " +
                     Column.TASK_TITLE + " ) " +
@@ -105,8 +107,8 @@ public class DatabaseValues
 
     public enum Column
     {
-        CATEGORY_TYPE (
-                "category_type",
+        GOAL_CATEGORY_TYPE (
+                "goal_category_type",
                 "VARCHAR ( " + CATEGORY_TYPE_VARCHAR_LENGTH + " )"
         ),
 
@@ -153,6 +155,10 @@ public class DatabaseValues
                 "task_completion_date_time",
                 "DATETIME"
         ),
+        TASK_COMPLETION_PERCENTAGE (
+                "task_completion_percentage",
+                "DECIMAL"
+        ),
         TASK_CREATION_DATE_TIME (
                 "task_creation_date_time",
                 "DATETIME"
@@ -168,6 +174,10 @@ public class DatabaseValues
         TASK_TITLE (
                 "task_name",
                 "VARCHAR ( " + TITLE_VARCHAR_LENGTH + " )"
+        ),
+        TASK_TOTAL_HOURS_SPENT (
+                "task_total_hours_spent",
+                "INTEGER"
         );
 
         private String columnName;

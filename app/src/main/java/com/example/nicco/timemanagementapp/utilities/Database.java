@@ -42,7 +42,7 @@ public class Database
     public String [] getAllCategories ()
     {
         Cursor cursor = db.rawQuery (
-                "SELECT " + DatabaseValues.Column.CATEGORY_TYPE +
+                "SELECT " + DatabaseValues.Column.GOAL_CATEGORY_TYPE +
                         " FROM " + DatabaseValues.Table.CATEGORY,
                 null
         );

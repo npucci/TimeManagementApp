@@ -115,7 +115,7 @@ public class EditGoalDialogFragment extends DialogFragment
                         goalDescription
                 );
                 contentValues.put (
-                        DatabaseValues.Column.CATEGORY_TYPE.toString (),
+                        DatabaseValues.Column.GOAL_CATEGORY_TYPE.toString (),
                         goalCategory
                 );
 

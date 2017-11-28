@@ -13,54 +13,47 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/taskKeyTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="#id" />
-
-        <TextView
             android:id="@+id/taskTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Title"
             android:textColor="@color/black"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Title" />
+            android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/taskEstimatedCostTextView"
+            android:id="@+id/taskCompletionPercentageTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Completion Percentage"
             android:textColor="@color/blue"
-            android:textSize="20sp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Category" />
-
-        <TextView
-            android:id="@+id/taskCreationDateTimeTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Creation Date" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/taskDeadlineTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Deadline"
             android:textColor="@color/red"
-            android:textSize="20sp"
-            android:text="Deadline" />
+            android:textSize="18sp" />
+
+        <View
+            style="@style/HorizontalDivider"
+            android:layout_weight="0" />
+
+        <TextView
+            android:id="@+id/taskCreationDateTimeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="Creation Date" />
 
         <TextView
             android:id="@+id/taskCompletionDateTimeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="12sp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Completion Date" />

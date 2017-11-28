@@ -96,7 +96,7 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
 
         holder.categoryTypeTextView.setText (
                 "Category: " + cursor.getString ( cursor.getColumnIndex (
-                        DatabaseValues.Column.CATEGORY_TYPE.toString ()
+                        DatabaseValues.Column.GOAL_CATEGORY_TYPE.toString ()
                 ) )
         );
 
@@ -188,7 +188,7 @@ public class GoalRecyclerViewAdapter extends RecyclerView.Adapter
                     goalDescriptionTextView.getText ().toString ()
             );
             intent.putExtra (
-                    DatabaseValues.Column.CATEGORY_TYPE.toString (),
+                    DatabaseValues.Column.GOAL_CATEGORY_TYPE.toString (),
                     categoryTypeTextView.getText ().toString ()
             );
             intent.putExtra (

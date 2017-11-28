@@ -123,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
                 ContentValues contentValues = new ContentValues ();
 
                 contentValues.put (
-                        DatabaseValues.Column.CATEGORY_TYPE.toString (),
+                        DatabaseValues.Column.GOAL_CATEGORY_TYPE.toString (),
                         category.toString ()
                 );
 

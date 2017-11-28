@@ -53,7 +53,7 @@ public class GoalEditorActivity extends AppCompatActivity implements ChangeListe
 
         categoryTypeTextView = ( TextView ) findViewById ( R.id.categoryTypeTextView );
         categoryTypeTextView.setText ( "Category: " + getIntent ().getStringExtra (
-                DatabaseValues.Column.CATEGORY_TYPE.toString () ) );
+                DatabaseValues.Column.GOAL_CATEGORY_TYPE.toString () ) );
 
         goalCreationDateTimeTextView = ( TextView ) findViewById ( R.id.goalCreationDateTimeTextView );
         goalCreationDateTimeTextView.setText ( "Created: " + getIntent ().getStringExtra (

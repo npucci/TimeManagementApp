@@ -14,8 +14,8 @@
     <string name="to_daily_checklist">To Daily Checklist</string>
     <string name="to_analytics_checklist">To Analytics</string>
     <string name="to_retrospective">To Retrospective</string>
-    <string name="new_goal">New Goal</string>
-    <string name="new_task">New Task</string>
+    <string name="new_goal">Add New Goal</string>
+    <string name="new_task">Add New Task</string>
     <string name="save">Save</string>
 
 </resources>

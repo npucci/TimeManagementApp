@@ -74,11 +74,31 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
         cursorAdapter.getCursor ().moveToPosition ( position );
         Cursor cursor = cursorAdapter.getCursor ();
 
-        holder.taskKeyTextView.setText (
-                cursor.getString ( cursor.getColumnIndex (
-                        DatabaseValues.Column._ID.toString ()
-                ) )
-        );
+        try
+        {
+            int taskKey = Integer.parseInt ( cursor.getString ( cursor.getColumnIndex (
+                    DatabaseValues.Column._ID.toString ()
+            ) ) );
+            holder.taskKey = taskKey;
+        }
+
+        catch ( Exception e )
+        {
+            holder.taskKey = -1;
+        }
+
+        try
+        {
+            int taskEstimatedCost = Integer.parseInt ( cursor.getString ( cursor.getColumnIndex (
+                    DatabaseValues.Column.TASK_ESTIMATED_COST.toString ()
+            ) ) );
+            holder.taskEstimatedCost = taskEstimatedCost;
+        }
+
+        catch ( Exception e )
+        {
+            holder.taskEstimatedCost = -1;
+        }
 
         holder.taskTitleTextView.setText (
                 "Task: " + cursor.getString ( cursor.getColumnIndex (
@@ -86,11 +106,20 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
                 ) )
         );
 
-        holder.taskEstimatedCostTextView.setText (
-                "Estimated Difficulty: " + cursor.getString ( cursor.getColumnIndex (
-                        DatabaseValues.Column.TASK_ESTIMATED_COST.toString ()
-                ) )
-        );
+        try
+        {
+            float completionPercentage = Float.parseFloat ( cursor.getString ( cursor.getColumnIndex (
+                    DatabaseValues.Column.TASK_COMPLETION_PERCENTAGE.toString ()
+            ) ) );
+            holder.taskCompletionPercentageTextView.setText (
+                    "Completion Percentage: " + completionPercentage
+            );
+        }
+
+        catch ( Exception e )
+        {
+            holder.taskCompletionPercentageTextView.setText ( "Completion %: -1" );
+        }
 
         holder.taskCreationDateTimeTextView.setText (
                 "Created: " + cursor.getString ( cursor.getColumnIndex (
@@ -109,14 +138,10 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
                 DatabaseValues.Column.TASK_COMPLETION_DATE_TIME.toString () ) );
         if ( completedDateTime == null || completedDateTime.isEmpty () )
         {
-            completedDateTime = "Status: Ongoing";
+            completedDateTime = "Completion Date: Ongoing";
 
         }
-        else
-        {
-            completedDateTime = "Completed: " + completedDateTime;
-        }
-        holder.taskCompletionDateTimeTextView.setText ( "Due Date: " + completedDateTime );
+        holder.taskCompletionDateTimeTextView.setText ( "Completion Date: " + completedDateTime );
     }
 
 
@@ -128,11 +153,12 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
 
     public class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        public TextView taskKeyTextView;
+        public int taskKey;
+        public int taskEstimatedCost;
         public TextView taskTitleTextView;
-        public TextView taskEstimatedCostTextView;
-        public TextView taskCreationDateTimeTextView;
+        public TextView taskCompletionPercentageTextView;
         public TextView taskDeadlineTextView;
+        public TextView taskCreationDateTimeTextView;
         public TextView taskCompletionDateTimeTextView;
         public LinearLayout myLayout;
 
@@ -143,12 +169,18 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
             super ( itemView );
             myLayout = ( LinearLayout ) itemView;
 
-            taskKeyTextView = ( TextView ) itemView.findViewById ( R.id.taskKeyTextView );
-            taskTitleTextView = ( TextView ) itemView.findViewById ( R.id.taskTitleTextView );
-            taskEstimatedCostTextView = ( TextView ) itemView.findViewById ( R.id.taskEstimatedCostTextView );
-            taskCreationDateTimeTextView = ( TextView ) itemView.findViewById ( R.id.taskCreationDateTimeTextView );
-            taskDeadlineTextView = ( TextView ) itemView.findViewById ( R.id.taskDeadlineTextView );
-            taskCompletionDateTimeTextView = ( TextView ) itemView.findViewById ( R.id.taskCompletionDateTimeTextView );
+            taskKey = -1;
+            taskEstimatedCost = -1;
+            taskTitleTextView = ( TextView ) itemView.findViewById
+                    ( R.id.taskTitleTextView );
+            taskCompletionPercentageTextView = ( TextView ) itemView.findViewById
+                    ( R.id.taskCompletionPercentageTextView );
+            taskDeadlineTextView = ( TextView ) itemView.findViewById
+                    ( R.id.taskDeadlineTextView );
+            taskCreationDateTimeTextView = ( TextView ) itemView.findViewById
+                    ( R.id.taskCreationDateTimeTextView );
+            taskCompletionDateTimeTextView = ( TextView ) itemView.findViewById
+                    ( R.id.taskCompletionDateTimeTextView );
 
             itemView.setOnClickListener ( this );
             context = itemView.getContext ();
@@ -160,10 +192,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter
         {
             Toast.makeText(
                     context,
-                    taskKeyTextView.getText () +
-                            " " + taskTitleTextView.getText () +
-                            " " + taskEstimatedCostTextView.getText () +
-                            " " + taskCreationDateTimeTextView.getText (),
+                    "task key = " + taskKey + ", taskEstimatedCost = " + taskEstimatedCost,
                     Toast.LENGTH_LONG
             ).show ();
 

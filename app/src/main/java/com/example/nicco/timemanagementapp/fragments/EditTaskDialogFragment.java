@@ -157,6 +157,14 @@ public class EditTaskDialogFragment extends DialogFragment
                         "" + getDateTime ()
                 );
                 contentValues.put (
+                        DatabaseValues.Column.TASK_COMPLETION_PERCENTAGE.toString (),
+                        "" + 0.0
+                );
+                contentValues.put (
+                        DatabaseValues.Column.TASK_TOTAL_HOURS_SPENT.toString (),
+                        "" + 0
+                );
+                contentValues.put (
                         DatabaseValues.Column.GOAL_ID.toString (),
                         "" + goalID
                 );
