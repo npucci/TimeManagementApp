@@ -9,6 +9,8 @@
     <string name="task_estimated_cost">Estimated Difficulty:</string>
     <string name="task_complete">Task Complete!</string>
     <string name="task_deadline">Enter a Deadline:</string>
+    <string name="goalManagerInstructions">Goal Manager:\nTap on a Goal below to Edit,\nor Add a New Goal.</string>
+    <string name="analyticsTitle">Past Week Analysis:</string>
 
     <!-- BUTTONS -->
     <string name="to_goal_manager">To Goal Manager</string>

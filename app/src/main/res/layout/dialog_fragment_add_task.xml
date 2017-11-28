@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/goal_title"
-            android:textSize="@dimen/regularTextSize" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/taskTitleEditText"
@@ -27,33 +27,7 @@
             android:ems="10"
             android:inputType="text"
             android:maxLength="@integer/title_varchar_length"
-            android:textSize="@dimen/regularTextSize" />
-
-        <TextView
-            android:id="@+id/percentageCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Percentage Complete"
-            android:textSize="@dimen/regularTextSize" />
-
-        <SeekBar
-            android:id="@+id/percentageCompletePointSeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:paddingTop="10dp"
-            android:progress="0" />
-
-        <TextView
-            android:id="@+id/taskCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:gravity="center"
-            android:textColor="@color/green"
-            android:text="@string/task_complete"
-            android:textSize="@dimen/titleTextSize" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/taskEstimatedCostTextView"
@@ -61,7 +35,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:text="@string/task_estimated_cost"
-            android:textSize="@dimen/regularTextSize" />
+            android:textSize="20sp" />
 
         <SeekBar
             android:id="@+id/taskEstimatedPointSeekBar"
@@ -77,7 +51,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:text="@string/task_deadline"
-            android:textSize="@dimen/regularTextSize" />
+            android:textSize="20sp" />
 
         <DatePicker
             android:id="@+id/taskDeadlineDatePicker"
@@ -100,7 +74,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:text="@string/save"
-            android:textSize="@dimen/regularTextSize" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -74,11 +75,101 @@ public class Database
             ContentValues contentValues
     ) {
 
-        return updateData (
+        boolean taskUpdated =  updateData (
                 DatabaseValues.Table.TASK,
                 contentValues,
                 DatabaseValues.Column._ID + " = " + "'" + _ID + "'"
         );
+
+        String dateCompleted = contentValues.getAsString (
+                DatabaseValues.Column.TASK_COMPLETION_DATE_TIME.toString () );
+
+        updateGoalStatus (
+                _ID,
+                dateCompleted
+        );
+
+        return taskUpdated;
+    }
+
+    public boolean updateGoal (
+            String _ID,
+            ContentValues contentValues
+    ) {
+
+        boolean goalUpdated =  updateData (
+                DatabaseValues.Table.GOAL,
+                contentValues,
+                DatabaseValues.Column._ID + " = " + "'" + _ID + "'"
+        );
+
+        return goalUpdated;
+    }
+
+    public Cursor getGoal ( String _ID )
+    {
+        Cursor cursor = getCursor (
+                new DatabaseValues.Table [] { DatabaseValues.Table.GOAL },
+                "WHERE " + DatabaseValues.Column._ID + " = " + "'" + _ID + "'"
+        );
+
+        if ( cursor.getCount () == 0 )
+        {
+            return null;
+        }
+
+        return cursor;
+    }
+
+    private void updateGoalStatus (
+            String taskID,
+            String dateCompleted
+    ) {
+        Cursor cursor = getCursor (
+                new DatabaseValues.Table [] { DatabaseValues.Table.TASK },
+                "WHERE " + DatabaseValues.Column._ID + " = " + "'" + taskID + "'"
+        );
+        Log.v("PUCCI", "here!");
+        if ( !cursor.moveToFirst () )
+        {
+            Log.v("PUCCI", "here 2!");
+            return;
+        }
+
+        String goalID = cursor.getString ( cursor.getColumnIndex (
+                DatabaseValues.Column.GOAL_ID.toString () ) );
+
+        Cursor allIncompleteTasksCursor = getCursor (
+                new DatabaseValues.Table [] { DatabaseValues.Table.TASK },
+                "WHERE " + DatabaseValues.Column.GOAL_ID + " = " + "'" + goalID + "'" + " AND " +
+                        DatabaseValues.Column.TASK_COMPLETION_DATE_TIME + " IS NULL "
+        );
+
+        if ( dateCompleted != null && !allIncompleteTasksCursor.moveToFirst () )
+        {
+            ContentValues updateGoalContentValues = new ContentValues ();
+            updateGoalContentValues.put (
+                    DatabaseValues.Column.GOAL_COMPLETION_DATE_TIME.toString (),
+                    dateCompleted
+            );
+            boolean goalUpdated = updateGoal (
+                    goalID,
+                    updateGoalContentValues
+            );
+            Log.v ("PUCCI", "complete goalUpdated = " + goalUpdated);
+        }
+        else
+        {
+            ContentValues updateGoalContentValues = new ContentValues ();
+            updateGoalContentValues.putNull (
+                    DatabaseValues.Column.GOAL_COMPLETION_DATE_TIME.toString () );
+            boolean goalUpdated = updateGoal (
+                    goalID,
+                    updateGoalContentValues
+            );
+            Log.v ("PUCCI", "incomplete goalUpdated = " + goalUpdated);
+        }
+
     }
 
     public String getExistingProgressID (

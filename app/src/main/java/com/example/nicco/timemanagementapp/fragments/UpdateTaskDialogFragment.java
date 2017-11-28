@@ -39,10 +39,10 @@ public class UpdateTaskDialogFragment extends DialogFragment
     private int fullHoursSpent = 0;
     private TextView taskTitleTextView;
     private TextView hoursSpentTextView;
-    private TextView percentageCompleteTextView;
     private TextView taskCompleteTextView;
-    private Spinner hoursSpentSpinner;
+    private TextView percentageCompleteTextView;
     private SeekBar percentageCompletePointSeekBar;
+    private Spinner hoursSpentSpinner;
     private Button saveButton;
     private ChangeListener changeListener;
 
@@ -300,31 +300,6 @@ public class UpdateTaskDialogFragment extends DialogFragment
         );
 
         return contentValues;
-    }
-
-    private int calculateTotalHoursSpent ()
-    {
-        int hoursSpent;
-        try
-        {
-            hoursSpent = Integer.parseInt ( hoursSpentSpinner.getSelectedItem ().toString () );
-        }
-        catch ( Exception e )
-        {
-            hoursSpent = 0;
-        }
-
-        return fullHoursSpent + hoursSpent;
-    }
-
-    private String getDateTime ()
-    {
-        DatePicker datePicker = new DatePicker ( getActivity () );
-        TimePicker timePicker = new TimePicker ( getActivity () );
-        return UtilityMethods.getDateTime (
-                datePicker,
-                timePicker
-        );
     }
 
     private void setTaskID ( String taskID )

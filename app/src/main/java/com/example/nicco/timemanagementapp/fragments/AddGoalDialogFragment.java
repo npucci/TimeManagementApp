@@ -24,7 +24,7 @@ import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
  * IAT 359 - Final Project
  */
 
-public class EditGoalDialogFragment extends DialogFragment
+public class AddGoalDialogFragment extends DialogFragment
 {
     public static final String FRAGMENT_TAG = "editGoalDialog";
 
@@ -37,15 +37,15 @@ public class EditGoalDialogFragment extends DialogFragment
 
     private Button saveButton;
 
-    public static EditGoalDialogFragment newInstance ( ChangeListener changeListener )
+    public static AddGoalDialogFragment newInstance (ChangeListener changeListener )
     {
-        EditGoalDialogFragment editGoalDialogFragment = new EditGoalDialogFragment ();
+        AddGoalDialogFragment addGoalDialogFragment = new AddGoalDialogFragment();
         if ( changeListener == null )
         {
             changeListener = new NullChangeListener ();
         }
-        editGoalDialogFragment.setChangeListener ( changeListener );
-        return editGoalDialogFragment;
+        addGoalDialogFragment.setChangeListener ( changeListener );
+        return addGoalDialogFragment;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class EditGoalDialogFragment extends DialogFragment
             Bundle savedInstanceState
     ) {
         final View view =  inflater.inflate (
-                R.layout.dialog_fragment_edit_goal,
+                R.layout.dialog_fragment_add_goal,
                 container,
                 false
         );

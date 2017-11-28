@@ -10,12 +10,12 @@ import android.widget.Button;
 
 import com.example.nicco.timemanagementapp.R;
 import com.example.nicco.timemanagementapp.adapters.GoalRecyclerViewAdapter;
-import com.example.nicco.timemanagementapp.fragments.EditGoalDialogFragment;
+import com.example.nicco.timemanagementapp.fragments.AddGoalDialogFragment;
 import com.example.nicco.timemanagementapp.interfaces.ChangeListener;
 import com.example.nicco.timemanagementapp.utilities.Database;
 import com.example.nicco.timemanagementapp.utilities.DatabaseValues;
 
-import static com.example.nicco.timemanagementapp.fragments.EditGoalDialogFragment.FRAGMENT_TAG;
+import static com.example.nicco.timemanagementapp.fragments.AddGoalDialogFragment.FRAGMENT_TAG;
 
 /**
  * Author: Niccolo Pucci
@@ -61,6 +61,13 @@ public class GoalManagerActivity extends AppCompatActivity implements ChangeList
         } );
     }
 
+    @Override
+    protected void onResume ()
+    {
+        super.onResume ();
+        notifyActionChange ( true );
+    }
+
     private void showGoalEditDialog ()
     {
         FragmentTransaction fragmentTransaction = getFragmentManager ().beginTransaction ();
@@ -73,8 +80,8 @@ public class GoalManagerActivity extends AppCompatActivity implements ChangeList
         }
         fragmentTransaction.addToBackStack ( null );
 
-        EditGoalDialogFragment editGoalDialogFragment = EditGoalDialogFragment.newInstance ( this );
-        editGoalDialogFragment.show (
+        AddGoalDialogFragment addGoalDialogFragment = AddGoalDialogFragment.newInstance ( this );
+        addGoalDialogFragment.show (
                 fragmentTransaction,
                 FRAGMENT_TAG
         );

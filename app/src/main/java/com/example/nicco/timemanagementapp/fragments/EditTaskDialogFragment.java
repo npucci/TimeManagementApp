@@ -2,6 +2,7 @@ package com.example.nicco.timemanagementapp.fragments;
 
 import android.app.DialogFragment;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,14 +32,17 @@ public class EditTaskDialogFragment extends DialogFragment
 {
     public static final String FRAGMENT_TAG = "editTaskDialog";
 
-    private String goalID;
+    private String taskID;
 
     private ChangeListener changeListener;
 
     private EditText taskTitleEditText;
 
+    private TextView taskCompleteTextView;
     private TextView taskEstimatedCostTextView;
+    private TextView percentageCompleteTextView;
 
+    private SeekBar percentageCompletePointSeekBar;
     private SeekBar taskEstimatedPointSeekBar;
 
     private DatePicker taskDeadlineDatePicker;
@@ -46,16 +50,20 @@ public class EditTaskDialogFragment extends DialogFragment
 
     private Button saveButton;
 
-    public static EditTaskDialogFragment newInstance ( String goalID, ChangeListener changeListener )
-    {
-        EditTaskDialogFragment editGoalDialogFragment = new EditTaskDialogFragment();
+
+    public static EditTaskDialogFragment newInstance (
+            String taskID,
+            ChangeListener changeListener
+    ) {
+        EditTaskDialogFragment editTaskDialogFragment = new EditTaskDialogFragment ();
         if ( changeListener == null )
         {
             changeListener = new NullChangeListener ();
         }
-        editGoalDialogFragment.setChangeListener ( changeListener );
-        editGoalDialogFragment.setGoalID ( goalID );
-        return editGoalDialogFragment;
+
+        editTaskDialogFragment.setTaskID ( taskID );
+        editTaskDialogFragment.setChangeListener ( changeListener );
+        return editTaskDialogFragment;
     }
 
     @Override
@@ -76,7 +84,19 @@ public class EditTaskDialogFragment extends DialogFragment
                 false
         );
 
+        Database db = new Database ( view.getContext () );
+        Cursor taskCursor = db.getCursor (
+                new DatabaseValues.Table[] { DatabaseValues.Table.TASK },
+                "WHERE " + DatabaseValues.Column._ID.toString () + " = " + taskID
+        );
+
+        taskCursor.moveToNext();
+
         taskTitleEditText = ( EditText ) view.findViewById ( R.id.taskTitleEditText );
+        taskTitleEditText.setText (
+                taskCursor.getString ( taskCursor.getColumnIndex (
+                        DatabaseValues.Column.TASK_TITLE.toString () ) )
+        );
 
         taskEstimatedCostTextView = ( TextView ) view.findViewById ( R.id.taskEstimatedCostTextView );
 
@@ -106,15 +126,111 @@ public class EditTaskDialogFragment extends DialogFragment
 
             }
         } );
+        taskEstimatedPointSeekBar.setProgress ( taskCursor.getInt ( taskCursor.getColumnIndex (
+                DatabaseValues.Column.TASK_ESTIMATED_COST.toString () ) ) );
 
         taskEstimatedCostTextView.setText (
                 getResources ().getString ( R.string.task_estimated_cost )
                         + " " + taskEstimatedPointSeekBar.getProgress () );
 
-        taskDeadlineDatePicker = ( DatePicker ) view.findViewById ( R.id.taskDeadlineDatePicker );
-        taskDeadlineTimePicker = ( TimePicker ) view.findViewById ( R.id.taskDeadlineTimePicker );
+        // yyyy-MM-dd HH:mm:ss.SSS
+        String dateTime = taskCursor.getString ( taskCursor.getColumnIndex (
+                DatabaseValues.Column.TASK_DUE_DATE.toString () ) );
 
-        Database db = new Database ( view.getContext () );
+        // yyyy-MM-dd
+        String date = dateTime.split ( " " ) [ 0 ];
+        int year = Integer.parseInt ( date.split ( "-" ) [ 0 ] );
+        int month = Integer.parseInt ( date.split ( "-" ) [ 1 ] ) - 1;
+        int day = Integer.parseInt ( date.split ( "-" ) [ 2 ] );
+
+        taskDeadlineDatePicker = ( DatePicker ) view.findViewById ( R.id.taskDeadlineDatePicker );
+        taskDeadlineDatePicker.updateDate (
+                year,
+                month,
+                day
+        );
+
+        // HH:mm:ss.SSS
+        String time = dateTime.split ( " " ) [ 1 ];
+        Log.v ("PUCCI", "time = " + time);
+        int hour;
+        try
+        {
+            hour = Integer.parseInt ( time.split ( ":" ) [ 0 ] );
+        }
+        catch ( Exception e )
+        {
+            hour = Integer.parseInt ( "" + time.split ( ":" ) [ 0 ].charAt ( 1 ) );
+        }
+
+        int minute;
+        try
+        {
+            minute = Integer.parseInt ( time.split ( ":" ) [ 1 ] );
+        }
+        catch ( Exception e )
+        {
+            minute = Integer.parseInt ( "" + time.split ( ":" ) [ 1 ].charAt ( 1 ) );
+        }
+
+        taskDeadlineTimePicker = ( TimePicker ) view.findViewById ( R.id.taskDeadlineTimePicker );
+        taskDeadlineTimePicker.setCurrentHour ( hour );
+        taskDeadlineTimePicker.setCurrentMinute ( minute );
+
+        percentageCompletePointSeekBar = ( SeekBar ) view.findViewById ( R.id.percentageCompletePointSeekBar );
+        percentageCompletePointSeekBar.setProgress (
+                taskCursor.getInt ( taskCursor.getColumnIndex (
+                        DatabaseValues.Column.TASK_COMPLETION_PERCENTAGE.toString () ) )
+        );
+        percentageCompletePointSeekBar.setOnSeekBarChangeListener(  new SeekBar.OnSeekBarChangeListener ()
+        {
+            @Override
+            public void onProgressChanged (
+                    SeekBar seekBar,
+                    int progress,
+                    boolean fromUser
+            ) {
+                percentageCompleteTextView.setText ( "Percentage Complete: " + progress + "%" );
+                if ( progress == 100 )
+                {
+                    taskCompleteTextView.setVisibility ( View.VISIBLE );
+                }
+
+                else
+                {
+                    taskCompleteTextView.setVisibility ( View.INVISIBLE );
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch ( SeekBar seekBar )
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch ( SeekBar seekBar )
+            {
+
+            }
+        } );
+
+        percentageCompleteTextView = ( TextView ) view.findViewById
+                ( R.id.percentageCompleteTextView );
+        percentageCompleteTextView.setText ( "Percentage Complete: " +
+                percentageCompletePointSeekBar.getProgress () + "%"
+        );
+
+        taskCompleteTextView = ( TextView ) view.findViewById ( R.id.taskCompleteTextView );
+        if ( percentageCompletePointSeekBar.getProgress () == 100 )
+        {
+            taskCompleteTextView.setVisibility ( View.VISIBLE );
+        }
+        else
+        {
+            taskCompleteTextView.setVisibility ( View.INVISIBLE );
+        }
+
 
         saveButton = ( Button ) view.findViewById ( R.id.saveButton );
         saveButton.setOnClickListener ( new View.OnClickListener()
@@ -157,41 +273,40 @@ public class EditTaskDialogFragment extends DialogFragment
                         )
                 );
                 contentValues.put (
-                        DatabaseValues.Column.TASK_COMPLETION_PERCENTAGE.toString (),
-                        "" + 0
+                        DatabaseValues.Column._ID.toString (),
+                        "" + taskID
                 );
                 contentValues.put (
-                        DatabaseValues.Column.GOAL_ID.toString (),
-                        "" + goalID
+                        DatabaseValues.Column.TASK_COMPLETION_PERCENTAGE.toString (),
+                        "" + percentageCompletePointSeekBar.getProgress ()
                 );
 
+                if ( percentageCompletePointSeekBar.getProgress () == 100 )
+                {
+                    contentValues.put (
+                            DatabaseValues.Column.TASK_COMPLETION_DATE_TIME.toString (),
+                            UtilityMethods.getDateTime (
+                                    new DatePicker ( getActivity () ),
+                                    new TimePicker ( getActivity () )
+                            )
+                    );
+                }
+                else
+                {
+                    contentValues.putNull (
+                            DatabaseValues.Column.TASK_COMPLETION_DATE_TIME.toString ()
+                    );
+                }
 
-                Long insertedTaskID = database.insertNewTask ( contentValues );
+
+                boolean inserted = database.updateTask (
+                        "" + taskID,
+                        contentValues
+                );
 
                 Log.v (
                         "PUCCI",
-                        "insertedTaskID = " + insertedTaskID
-                );
-
-                ContentValues initialProgress = new ContentValues ();
-                initialProgress.put (
-                        DatabaseValues.Column.PROGRESS_HOURS_SPENT.toString (),
-                        0
-                );
-                initialProgress.put (
-                        DatabaseValues.Column.TASK_ID.toString (),
-                        insertedTaskID
-                );
-                initialProgress.put (
-                        DatabaseValues.Column.PROGRESS_DATE.toString (),
-                        UtilityMethods.getDate ( new DatePicker ( getActivity () ) )
-                );
-
-                Long insertedProgressID = database.insertNewProgress ( initialProgress );
-
-                Log.v (
-                        "PUCCI",
-                        "insertedProgressID = " + insertedProgressID
+                        "inserted = " + inserted
                 );
 
                 changeListener.notifyActionChange ( true );
@@ -202,9 +317,9 @@ public class EditTaskDialogFragment extends DialogFragment
         return view;
     }
 
-    private void setGoalID ( String goalID )
+    private void setTaskID ( String taskID )
     {
-        this.goalID = goalID;
+        this.taskID = taskID;
     }
 
     private void setChangeListener ( ChangeListener changeListener )
